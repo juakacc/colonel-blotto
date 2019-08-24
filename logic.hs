@@ -1,6 +1,7 @@
 import Strategies
 import Menus
 import Configs
+import Control.Monad
 
 -- |Recupera um numero inteiro do console
 getNumero = do
@@ -27,14 +28,19 @@ getList [] [] = [EMPATE]
 getList [a] [b] = [getV a b]
 getList (x:xs) (y:ys) = getList [x] [y] ++ getList xs ys
 
+contarVitorias lista tipo
+ | tipo == JOGADOR = length $ filter (==JOGADOR) lista
+ | tipo == CORONEL = length $ filter (==CORONEL) lista
+ | otherwise       = 0
+
 -- |Recebe as duas jogadas e decide quem eh o vencedor
 getVencedor jogador coronel
-         | vitoriasJogador == vitoriasCoronel = EMPATE
-         | vitoriasJogador > vitoriasCoronel  = JOGADOR
-         | otherwise                          = CORONEL
-         where vitoriasJogador = length $ filter (==JOGADOR) lista
-               vitoriasCoronel = length $ filter (==CORONEL) lista
-               lista = getList jogador coronel
+         | vJogador == vCoronel = EMPATE
+         | vJogador > vCoronel  = JOGADOR
+         | otherwise            = CORONEL
+         where vJogador = contarVitorias lista JOGADOR
+               vCoronel = contarVitorias lista CORONEL
+               lista    = getList jogador coronel
 
 convert :: Integral a => a -> a
 convert x = x
@@ -46,37 +52,24 @@ getJogador = do
   l2 <- getNumero
   putStr "Quantas tropas para o campo de batalha 3? "
   l3 <- getNumero
-  let a = l1 :: Int
-  let b = l2 :: Int
-  let c = l3 :: Int
-  return [a, b, c]
+  return [l1, l2, l3]
 
 pegarDados = do
-  -- putStr "Qual é o seu nome? "
-  -- nome_usuario <- getLine
-  -- putStrLn $ "Olá, " ++ nome_usuario ++ ", Bem-vindo!"
-
-  putStr "Quantas tropas para o campo de batalha 1? "
-  l1 <- getNumero
-  putStr "Quantas tropas para o campo de batalha 2? "
-  l2 <- getNumero
-  putStr "Quantas tropas para o campo de batalha 3? "
-  l3 <- getNumero
-  let a = l1 :: Int
-  let b = l2 :: Int
-  let c = l3 :: Int
-
-  -- Recuperar do terminal
-  let jogada = [a, b, c] -- let jogada = [70, 60, 20]
-  let coronelBlotto = Strategies.getStrategy1 numeroDeTropas numeroDeCampos
-  putStrLn $ "Jogador: " ++ show jogada
-  putStrLn $ "Coronel: " ++ show coronelBlotto
-
-  let vencedor = getVencedor jogada coronelBlotto
-  putStrLn $ "O vencedor foi " ++ show vencedor
+  jogada <- getJogador -- let jogada = [70, 60, 20]
+  let teste = (sum jogada) > Configs.numeroDeTropas
+  
+  when(teste == False) $ do
+    let coronelBlotto = Strategies.getStrategy1 numeroDeTropas numeroDeCampos
+    putStrLn $ "Jogador: " ++ show jogada
+    putStrLn $ "Coronel: " ++ show coronelBlotto
+    let vencedor = getVencedor jogada coronelBlotto
+    putStrLn $ "O vencedor foi " ++ show vencedor
   -- pegarDados -- Tornar funcao repetitiva
 
 -- |Funcao inicial
 main = do
   Menus.imprimir_tela_inicial
+  -- putStr "Qual é o seu nome? "
+  -- nome_usuario <- getLine
+  -- putStrLn $ "Olá, " ++ nome_usuario ++ ", Bem-vindo!"
   pegarDados
