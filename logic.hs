@@ -8,11 +8,13 @@ getNumero = do
   l <- readLn :: IO Int
   return l
 
--- getNumeroDeTropas limite
---        | limite == 0 = 0
---        | n <= limite = n
---        | otherwise   = getNumeroDeTropas limite
---        where n = getNumero
+getNumeroDeTropas limite =
+  if (limite == 0) then return 0
+                   else do
+                     n <- getNumero
+                     if n <= limite then return n
+                                    else
+                                      getNumeroDeTropas limite
 
 -- Data para representar o vencedor em um campo
 data Value = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
@@ -42,9 +44,6 @@ getVencedor jogador coronel
                vCoronel = contarVitorias lista CORONEL
                lista    = getList jogador coronel
 
-convert :: Integral a => a -> a
-convert x = x
-
 getJogador = do
   putStr "Quantas tropas para o campo de batalha 1? "
   l1 <- getNumero
@@ -57,7 +56,7 @@ getJogador = do
 pegarDados = do
   jogada <- getJogador -- let jogada = [70, 60, 20]
   let teste = (sum jogada) > Configs.numeroDeTropas
-  
+
   when(teste == False) $ do
     let coronelBlotto = Strategies.getStrategy1 numeroDeTropas numeroDeCampos
     putStrLn $ "Jogador: " ++ show jogada
