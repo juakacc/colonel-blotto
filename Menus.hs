@@ -8,3 +8,6 @@ imprimir_tela_inicial = do
   putStrLn("::::: COLONEL BLOTTO :::::")
   putStrLn("--------------------------")
   putStrLn("")
+
+-- Iniciar desenho gráfico
+-- Definir conceitos que serão exibidos ao usuário
