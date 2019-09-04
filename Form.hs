@@ -34,6 +34,10 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border.Style as BS
 
 import Configs (numeroDeTropas)
+import Ui
+ ( header
+ , footer
+ )
 
 data Name = CbaField
           | CbbField
@@ -65,50 +69,33 @@ theMap = attrMap V.defAttr
   , (focusedFormInputAttr, V.black `on` V.blue)
   ]
 
--- header :: Widget ()
-header =
-  withBorderStyle BS.unicodeRounded $
-  B.border $
-  vLimit 3 $
-  C.center $
-  str "CORONEL BLOTTO - Teoria dos Jogos"
-
--- footer :: Widget ()
-footer =
-  withBorderStyle BS.unicodeRounded $
-  B.border $
-  vLimit 5 $
-  C.center $
-  str "Frases a respeito da teoria dos jogos ao longo da interação do usuário"
-
 draw :: Form UserInfo e Name -> [Widget Name]
-draw f = [header <=> C.hCenter form <=> footer]
+draw f = [Ui.header <=> C.hCenter form <=> Ui.footer]
     where
         form = B.borderWithLabel (str "Campos de batalha") $ padAll 1 $ hLimit 20 $ renderForm f
-        header = withBorderStyle BS.unicodeRounded $ B.border $ vLimit 3 $ C.center $ str "CORONEL BLOTTO - Teoria dos Jogos"
-        footer = withBorderStyle BS.unicodeRounded $ B.border $ vLimit 3 $ C.center $ str "Frases a respeito da teoria dos jogos ao longo da interação do usuário"
 
 app :: App (Form UserInfo e Name) e Name
 app =
     App { appDraw = draw
-        , appHandleEvent = \s ev ->
-            case ev of
-                VtyEvent (V.EvResize {})     -> continue s
-                VtyEvent (V.EvKey V.KEsc [])   -> halt s
-                _ -> do
-                    s' <- handleFormEvent ev s
-                    -- Incluir validações aqui
-                    let total = (formState s')^.cba + (formState s')^.cbb + (formState s')^.cbc
-                    continue $
-                     setFieldValid (total <= numeroDeTropas) CbaField (
-                     setFieldValid (total <= numeroDeTropas) CbbField (
-                     setFieldValid (total <= numeroDeTropas) CbcField s'
-                     ))
-
+        , appHandleEvent = handleEvent
         , appChooseCursor = focusRingCursor formFocus
         , appStartEvent = return
         , appAttrMap = const theMap
         }
+
+-- -| Função para manipular os eventos gerados pelo jogo
+handleEvent :: Form UserInfo e Name -> BrickEvent Name e -> EventM Name (Next (Form UserInfo e Name))
+handleEvent state (VtyEvent (V.EvResize {})) = continue state
+handleEvent state (VtyEvent (V.EvKey V.KEsc [])) = halt state
+handleEvent state event = do
+  state' <- handleFormEvent event state
+  -- Incluir validações aqui
+  let total = (formState state')^.cba + (formState state')^.cbb + (formState state')^.cbc
+  continue $
+   setFieldValid (total <= numeroDeTropas) CbaField (
+   setFieldValid (total <= numeroDeTropas) CbbField (
+   setFieldValid (total <= numeroDeTropas) CbcField state'
+   ))
 
 main :: IO ()
 main = do
@@ -130,7 +117,7 @@ main = do
     print initialUserInfo
 
     putStr "Estado final: "
-    print $ formState f'
+    print $ (formState f')^.cba
 
     if allFieldsValid f'
        then putStrLn "Todos os campos estão válidos."
