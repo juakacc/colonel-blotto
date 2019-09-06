@@ -1,6 +1,7 @@
 module Ui
 ( header
 , footer
+, painelCoronel
 ) where
 
 import Brick
@@ -25,14 +26,29 @@ qtdCoronel x =
 
 bot =
   vBox [C.center $ str $ "  Tropas\n" <>
-                       "adversárias", C.center $ qtdCoronel 40]
+                       "adversárias", C.hCenter $ qtdCoronel 40]
 
 painelCoronel =
   withBorderStyle BS.unicodeRounded $
   B.border $
   hLimitPercent 20 $
   C.center $
-  vBox [C.center $ str "Coronel Blotto", B.hBorder, bot]
+  vBox [C.hCenter $ str "Coronel Blotto", B.hBorder, bot]
+
+jog =
+  vBox [C.hCenter $ str $ "  Tropas\n" <>
+                         "restantes", C.center $ qtdCoronel 76]
+
+painelJogador =
+  withBorderStyle BS.unicodeRounded $
+  B.border $
+  hLimitPercent 20 $
+  C.center $
+  vBox [C.hCenter $ str "Jogador Joaquim",
+        B.hBorder,
+        jog,
+        C.hCenter $ str "<JOGAR>",
+        C.hCenter $ str "<LIMPAR>"]
 
 footer =
   withBorderStyle BS.unicodeRounded $
@@ -41,10 +57,17 @@ footer =
   C.center $
   str "Frases a respeito da teoria dos jogos ao longo da interação do usuário"
 
+form =
+  withBorderStyle BS.unicodeRounded $
+  B.border $
+  hLimitPercent 40 $
+  C.center $
+  str "FORMULARIO"
+
 ui :: Widget ()
 ui =
   header
-  <=> painelCoronel
+  <=> hBox [painelCoronel, form, painelJogador]
   <=> footer
 
 main :: IO ()
