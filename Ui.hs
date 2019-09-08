@@ -1,10 +1,14 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Ui
 ( header
 , footer
 , painelCoronel
 ) where
 
+import qualified Graphics.Vty as V
+
 import Brick
+import qualified Brick.AttrMap as AT
 import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Border.Style as BS
@@ -16,12 +20,22 @@ header =
   C.center $
   str "CORONEL BLOTTO - Teoria dos Jogos"
 
+titleAttr :: AT.AttrName
+titleAttr = "title"
+
+mappings :: [(AT.AttrName, V.Attr)]
+mappings =
+  [ (B.borderAttr, V.cyan `on` V.black)
+  , (titleAttr   , fg V.cyan)]
+
 qtdCoronel x =
+  updateAttrMap (AT.applyAttrMappings mappings) $
   withBorderStyle BS.unicodeRounded $
   B.border $
   hLimit 4 $
   vLimit 1 $
   C.center $
+  withAttr titleAttr $
   str $ show x
 
 bot =
