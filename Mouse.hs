@@ -1,6 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
-module Main where
+module Mouse
+( button
+, Name
+, appEvent
+, aMap
+) where
+
+import Types
 
 import Control.Applicative ((<$>))
 import Lens.Micro ((^.), (&), (.~), (%~))
@@ -9,7 +16,7 @@ import Control.Monad (void)
 import Data.Monoid ((<>))
 import qualified Graphics.Vty as V
 
-import qualified Brick.Types as T
+import Brick
 import Brick.AttrMap
 import Brick.Util
 import Brick.Types (Widget, ViewportType(Vertical))
@@ -18,41 +25,42 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
 import Brick.Widgets.Core
 
-data Name = Button1 | Button2 deriving (Show, Ord, Eq)
+drawUi :: AppState -> [Widget Name]
+drawUi st = [button st]
 
-data St =
-    St { _lastReportedClick :: Maybe Name }
-makeLenses ''St
+-- |Função responsável por criar botões 
+-- mkButton
 
-drawUi :: St -> [Widget Name]
-drawUi st =
-    [ buttonLayer st
-    , str "Testando o restante"
-    ]
-
-buttonLayer :: St -> Widget Name
-buttonLayer st =
-    -- C.vCenterLayer $
-      C.hCenterLayer (padBottom (T.Pad 1) $ str "Click a button:") <=>
-      C.hCenterLayer (hBox $ padLeftRight 1 <$> buttons)
-    where
-        buttons = mkButton <$> buttonData
-        buttonData = [ (Button1, "Button 1", "button1")
-                     , (Button2, "Button 2", "button2")
-                     ]
-        mkButton (name, label, attr) =
-            let wasClicked = st^.lastReportedClick == Just name
-            in clickable name $
-               withDefAttr attr $
+-- button :: St -> Widget Name
+button st = let wasClicked = st^.lastReportedClick == Just Button1
+            in clickable Button1 $
+               withDefAttr "button1" $
                B.border $
                padLeftRight (if wasClicked then 2 else 3) $
-               str (if wasClicked then "<" <> label <> ">" else label)
+               str (if wasClicked then "<" <> "Jogar" <> ">" else "Jogar")
 
-appEvent :: St -> T.BrickEvent Name e -> T.EventM Name (T.Next St)
-appEvent st (T.MouseDown n _ _ _) = M.continue $ st & lastReportedClick .~ Just n
-appEvent st (T.MouseUp _ _ _) = M.continue $ st & lastReportedClick .~ Nothing
-appEvent st (T.VtyEvent (V.EvMouseUp _ _ _)) = M.continue $ st & lastReportedClick .~ Nothing
-appEvent st (T.VtyEvent (V.EvKey V.KEsc [])) = M.halt st
+-- buttonLayer :: St -> Widget Name
+-- buttonLayer st =
+--       C.hCenterLayer (padBottom (Pad 1) $ str "Click a button:") <=>
+--       C.hCenterLayer (hBox $ padLeftRight 1 <$> buttons)
+--     where
+--         buttons = mkButton <$> buttonData
+--         buttonData = [ (Button1, "Button 1", "button1")
+--                      , (Button2, "Button 2", "button2")
+--                      ]
+--         mkButton (name, label, attr) =
+--             let wasClicked = st^.lastReportedClick == Just name
+--             in clickable name $
+--                withDefAttr attr $
+--                B.border $
+--                padLeftRight (if wasClicked then 2 else 3) $
+--                str (if wasClicked then "<" <> label <> ">" else label)
+
+appEvent :: AppState -> BrickEvent Name e -> EventM Name (Next AppState)
+appEvent st (MouseDown n _ _ _) = M.continue $ st & lastReportedClick .~ Just n
+appEvent st (MouseUp _ _ _) = M.continue $ st & lastReportedClick .~ Nothing
+appEvent st (VtyEvent (V.EvMouseUp _ _ _)) = M.continue $ st & lastReportedClick .~ Nothing
+appEvent st (VtyEvent (V.EvKey V.KEsc [])) = M.halt st
 appEvent st _ = M.continue st
 
 aMap :: AttrMap
@@ -61,7 +69,7 @@ aMap = attrMap V.defAttr
     , ("button2", V.black `on` V.green)
     ]
 
-app :: M.App St e Name
+app :: M.App AppState e Name
 app =
     M.App { M.appDraw = drawUi
           , M.appStartEvent = return
@@ -69,6 +77,11 @@ app =
           , M.appAttrMap = const aMap
           , M.appChooseCursor = M.showFirstCursor
           }
+
+mkInitialState =
+  AppState { _lastReportedClick = Nothing
+
+           }
 
 main :: IO ()
 main = do
@@ -78,4 +91,4 @@ main = do
           return v
 
     initialVty <- buildVty
-    void $ M.customMain initialVty buildVty Nothing app $ St Nothing
+    void $ M.customMain initialVty buildVty Nothing app $ mkInitialState

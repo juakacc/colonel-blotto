@@ -5,9 +5,16 @@ module Ui
 , painelCoronel
 ) where
 
+import Mouse
+import Types
+
 import qualified Graphics.Vty as V
 
+import Data.Monoid ((<>))
+import Control.Monad (void)
+
 import Brick
+import qualified Brick.Main as M
 import qualified Brick.AttrMap as AT
 import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
@@ -28,7 +35,7 @@ mappings =
   [ (B.borderAttr, V.cyan `on` V.black)
   , (titleAttr   , fg V.cyan)]
 
-qtdCoronel x =
+squareQtd x =
   updateAttrMap (AT.applyAttrMappings mappings) $
   withBorderStyle BS.unicodeRounded $
   B.border $
@@ -40,28 +47,29 @@ qtdCoronel x =
 
 bot =
   vBox [C.center $ str $ "  Tropas\n" <>
-                       "adversárias", C.hCenter $ qtdCoronel 40]
+                       "adversárias", C.hCenter $ squareQtd 40]
 
 painelCoronel =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  hLimitPercent 20 $
+  -- hLimitPercent 20 $
   C.center $
   vBox [C.hCenter $ str "Coronel Blotto", B.hBorder, bot]
 
 jog =
   vBox [C.hCenter $ str $ "  Tropas\n" <>
-                         "restantes", C.center $ qtdCoronel 76]
+                         "restantes", C.center $ squareQtd 76]
 
-painelJogador =
+painelJogador :: AppState -> Widget Name
+painelJogador st =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  hLimitPercent 20 $
+  -- hLimitPercent 20 $
   C.center $
   vBox [C.hCenter $ str "Jogador Joaquim",
         B.hBorder,
         jog,
-        C.hCenter $ str "<JOGAR>",
+        C.hCenter $ button st,
         C.hCenter $ str "<LIMPAR>"]
 
 footer =
@@ -74,15 +82,33 @@ footer =
 form =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  hLimitPercent 40 $
+  -- hLimitPercent 40 $
   C.center $
   str "FORMULARIO"
 
-ui :: Widget ()
-ui =
-  header
-  <=> hBox [painelCoronel, form, painelJogador]
-  <=> footer
+ui :: AppState -> [Widget Name]
+ui st =
+  [header
+  <=> (C.hCenterLayer $ hBox [hLimit 20 $ painelCoronel, hLimit 60 $ form, hLimit 20 $ painelJogador st])
+  <=> footer]
+
+app :: App AppState e Name
+app =
+  App { appDraw = ui
+      , appStartEvent = return
+      , appHandleEvent = appEvent
+      , appAttrMap = const aMap
+      , appChooseCursor = showFirstCursor
+      }
 
 main :: IO ()
-main = simpleMain ui
+-- main = simpleMain ui
+
+main = do
+    let buildVty = do
+          v <- V.mkVty =<< V.standardIOConfig
+          V.setMode (V.outputIface v) V.Mouse True
+          return v
+
+    initialVty <- buildVty
+    void $ M.customMain initialVty buildVty Nothing app $ AppState Nothing
