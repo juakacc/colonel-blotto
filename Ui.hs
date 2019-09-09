@@ -9,7 +9,6 @@ import Mouse
 import Types
 
 import qualified Graphics.Vty as V
-
 import Data.Monoid ((<>))
 import Control.Monad (void)
 
@@ -56,9 +55,10 @@ painelCoronel =
   C.center $
   vBox [C.hCenter $ str "Coronel Blotto", B.hBorder, bot]
 
-jog =
+jog :: AppState -> Widget Name
+jog st =
   vBox [C.hCenter $ str $ "  Tropas\n" <>
-                         "restantes", C.center $ squareQtd 76]
+                         "restantes", C.center $ squareQtd $ st^.tropasRestantesJogador]
 
 painelJogador :: AppState -> Widget Name
 painelJogador st =
@@ -68,9 +68,9 @@ painelJogador st =
   C.center $
   vBox [C.hCenter $ str "Jogador Joaquim",
         B.hBorder,
-        jog,
-        C.hCenter $ button st,
-        C.hCenter $ str "<LIMPAR>"]
+        jog st,
+        padBottom (Pad 1) $ C.hCenter $ btnPlay st,
+        C.hCenter $ btnClean st]
 
 footer =
   withBorderStyle BS.unicodeRounded $
@@ -101,9 +101,12 @@ app =
       , appChooseCursor = showFirstCursor
       }
 
-main :: IO ()
--- main = simpleMain ui
+mkInitialState =
+  AppState { _lastReportedClick = Nothing
+           , _tropasRestantesJogador = 150
+           }
 
+main :: IO ()
 main = do
     let buildVty = do
           v <- V.mkVty =<< V.standardIOConfig
@@ -111,4 +114,4 @@ main = do
           return v
 
     initialVty <- buildVty
-    void $ M.customMain initialVty buildVty Nothing app $ AppState Nothing
+    void $ M.customMain initialVty buildVty Nothing app $ mkInitialState

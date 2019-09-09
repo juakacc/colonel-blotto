@@ -1,7 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 module Mouse
-( button
+( btnPlay
+, btnClean
+, mkButton
 , Name
 , appEvent
 , aMap
@@ -25,36 +27,32 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
 import Brick.Widgets.Core
 
+-- |Função responsável por criar botões
+mkButton :: (AppState, Name, String, AttrName) -> Widget Name
+mkButton (st, name, label, attr) =
+  let wasClicked = st^.lastReportedClick == Just name
+  in clickable name $
+     withDefAttr attr $
+     B.border $
+     padLeftRight (if wasClicked then 2 else 3) $
+     str (if wasClicked then "<" <> label <> ">" else label)
+
+btnPlay :: AppState -> Widget Name
+btnPlay st = mkButton (st, ButtonPlay, "Jogar", "ButtonPlay")
+
+btnClean :: AppState -> Widget Name
+btnClean st = mkButton (st, ButtonClean, "Limpar", "ButtonClean")
+
+aMap :: AttrMap
+aMap = attrMap V.defAttr
+    [ ("ButtonPlay", V.black `on` V.cyan)
+    , ("ButtonClean", V.black `on` V.green)
+    ]
+
+-- ---------------- TESTES ----------------
+
 drawUi :: AppState -> [Widget Name]
-drawUi st = [button st]
-
--- |Função responsável por criar botões 
--- mkButton
-
--- button :: St -> Widget Name
-button st = let wasClicked = st^.lastReportedClick == Just Button1
-            in clickable Button1 $
-               withDefAttr "button1" $
-               B.border $
-               padLeftRight (if wasClicked then 2 else 3) $
-               str (if wasClicked then "<" <> "Jogar" <> ">" else "Jogar")
-
--- buttonLayer :: St -> Widget Name
--- buttonLayer st =
---       C.hCenterLayer (padBottom (Pad 1) $ str "Click a button:") <=>
---       C.hCenterLayer (hBox $ padLeftRight 1 <$> buttons)
---     where
---         buttons = mkButton <$> buttonData
---         buttonData = [ (Button1, "Button 1", "button1")
---                      , (Button2, "Button 2", "button2")
---                      ]
---         mkButton (name, label, attr) =
---             let wasClicked = st^.lastReportedClick == Just name
---             in clickable name $
---                withDefAttr attr $
---                B.border $
---                padLeftRight (if wasClicked then 2 else 3) $
---                str (if wasClicked then "<" <> label <> ">" else label)
+drawUi st = [btnPlay st]
 
 appEvent :: AppState -> BrickEvent Name e -> EventM Name (Next AppState)
 appEvent st (MouseDown n _ _ _) = M.continue $ st & lastReportedClick .~ Just n
@@ -62,12 +60,6 @@ appEvent st (MouseUp _ _ _) = M.continue $ st & lastReportedClick .~ Nothing
 appEvent st (VtyEvent (V.EvMouseUp _ _ _)) = M.continue $ st & lastReportedClick .~ Nothing
 appEvent st (VtyEvent (V.EvKey V.KEsc [])) = M.halt st
 appEvent st _ = M.continue st
-
-aMap :: AttrMap
-aMap = attrMap V.defAttr
-    [ ("button1", V.black `on` V.cyan)
-    , ("button2", V.black `on` V.green)
-    ]
 
 app :: M.App AppState e Name
 app =
@@ -80,7 +72,7 @@ app =
 
 mkInitialState =
   AppState { _lastReportedClick = Nothing
-
+           , _tropasRestantesJogador = 150
            }
 
 main :: IO ()
