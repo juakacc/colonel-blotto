@@ -1,7 +1,9 @@
+import Control.Monad
+
 import Strategies
 import Menus
 import Configs
-import Control.Monad
+import Types (Value(..))
 
 -- |Recupera um numero inteiro do console
 getNumero = do
@@ -15,9 +17,6 @@ getNumeroDeTropas limite =
                      if n <= limite then return n
                                     else
                                       getNumeroDeTropas limite
-
--- Data para representar o vencedor em um campo
-data Value = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
 
 -- |Dado o numero de tropas do jogador e do coronel, retorna o vencedor desse campo ou um empate
 getV a b

@@ -9,5 +9,6 @@ imprimir_tela_inicial = do
   putStrLn("--------------------------")
   putStrLn("")
 
--- Iniciar desenho gráfico
--- Definir conceitos que serão exibidos ao usuário
+-- teoria dos jogos
+-- mais jogos
+-- informações sobre o jogo, pesquisa

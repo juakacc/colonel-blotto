@@ -1,14 +1,22 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 module Ui
 ( header
 , footer
 , painelCoronel
 ) where
 
-import Mouse
+import MkWidgets
 import Types
+import Events
+import AMap
+import UI.Header
+import UI.Footer
+
+import Configs
 
 import qualified Graphics.Vty as V
+import Lens.Micro ((^.), (&), (.~), (%~))
 import Data.Monoid ((<>))
 import Control.Monad (void)
 
@@ -19,13 +27,6 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Border.Style as BS
 
-header =
-  withBorderStyle BS.unicodeRounded $
-  B.border $
-  vLimit 3 $
-  C.center $
-  str "CORONEL BLOTTO - Teoria dos Jogos"
-
 titleAttr :: AT.AttrName
 titleAttr = "title"
 
@@ -34,6 +35,7 @@ mappings =
   [ (B.borderAttr, V.cyan `on` V.black)
   , (titleAttr   , fg V.cyan)]
 
+squareQtd :: Int -> Widget Name
 squareQtd x =
   updateAttrMap (AT.applyAttrMappings mappings) $
   withBorderStyle BS.unicodeRounded $
@@ -51,7 +53,7 @@ bot =
 painelCoronel =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  -- hLimitPercent 20 $
+  hLimit 20 $
   C.center $
   vBox [C.hCenter $ str "Coronel Blotto", B.hBorder, bot]
 
@@ -64,33 +66,27 @@ painelJogador :: AppState -> Widget Name
 painelJogador st =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  -- hLimitPercent 20 $
+  hLimit 20 $
   C.center $
-  vBox [C.hCenter $ str "Jogador Joaquim",
+  vBox [C.hCenter $ str $ "Jogador " <> st^.nomeJogador,
         B.hBorder,
         jog st,
         padBottom (Pad 1) $ C.hCenter $ btnPlay st,
         C.hCenter $ btnClean st]
 
-footer =
+form :: AppState -> Widget Name
+form st =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  vLimit 5 $
+  hLimit 35 $
   C.center $
-  str "Frases a respeito da teoria dos jogos ao longo da interação do usuário"
-
-form =
-  withBorderStyle BS.unicodeRounded $
-  B.border $
-  -- hLimitPercent 40 $
-  C.center $
-  str "FORMULARIO"
+  hBox [translateBy (Location (0, 0)) $ squareQtd 5]
 
 ui :: AppState -> [Widget Name]
 ui st =
   [header
-  <=> (C.hCenterLayer $ hBox [hLimit 20 $ painelCoronel, hLimit 60 $ form, hLimit 20 $ painelJogador st])
-  <=> footer]
+  <=> (C.hCenterLayer $ hBox [painelCoronel, form st, painelJogador st])
+  <=> footer st]
 
 app :: App AppState e Name
 app =
@@ -104,6 +100,8 @@ app =
 mkInitialState =
   AppState { _lastReportedClick = Nothing
            , _tropasRestantesJogador = 150
+           , _nomeJogador = "Paulo da Silva"
+           , _dicaAtual = 0
            }
 
 main :: IO ()
