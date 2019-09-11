@@ -10,6 +10,7 @@ import Configs
 
 import Control.Applicative ((<$>))
 import Lens.Micro ((^.))
+import Data.Monoid ((<>)) 
 
 import Brick
 import Brick.Types (Widget)

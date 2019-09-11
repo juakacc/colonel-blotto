@@ -32,7 +32,7 @@ titleAttr = "title"
 
 mappings :: [(AT.AttrName, V.Attr)]
 mappings =
-  [ (B.borderAttr, V.cyan `on` V.black)
+  [ (B.borderAttr, fg V.cyan)
   , (titleAttr   , fg V.cyan)]
 
 squareQtd :: Int -> Widget Name
@@ -68,9 +68,15 @@ painelJogador st =
   B.border $
   hLimit 20 $
   C.center $
-  vBox [C.hCenter $ str $ "Jogador " <> st^.nomeJogador,
+  vBox [C.hCenter $ str $ "Jogador\n" <> st^.nomeJogador,
         B.hBorder,
         jog st,
+        B.hBorder,
+        C.hCenter $ str $ "Coronel Blotto",
+        B.hBorder,
+        str $ "Tropas adversárias",
+        C.center $ squareQtd $ st^.tropasRestantesJogador,
+        B.hBorder,
         padBottom (Pad 1) $ C.hCenter $ btnPlay st,
         C.hCenter $ btnClean st]
 
@@ -78,14 +84,20 @@ form :: AppState -> Widget Name
 form st =
   withBorderStyle BS.unicodeRounded $
   B.border $
-  hLimit 35 $
+  -- hLimit 35 $
+  -- setAvailableSize (50,50) $
   C.center $
-  hBox [translateBy (Location (0, 0)) $ squareQtd 5]
+  hBox
+    [ translateBy (Location (0, 0)) $ squareQtd 0
+    , translateBy (Location (5, 10)) $ squareQtd 15
+    , translateBy (Location (10, 5)) $ squareQtd 10
+    ]
 
 ui :: AppState -> [Widget Name]
 ui st =
   [header
-  <=> (C.hCenterLayer $ hBox [painelCoronel, form st, painelJogador st])
+  <=>
+  (C.hCenterLayer $ hBox [painelCoronel, form st, painelJogador st])
   <=> footer st]
 
 app :: App AppState e Name
