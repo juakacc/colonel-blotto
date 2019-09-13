@@ -38,44 +38,32 @@ import Ui
  ( header
  , footer
  )
-
-data Name = CbaField
-          | CbbField
-          | CbcField
-          deriving (Eq, Ord, Show)
-
-data UserInfo =
-    UserInfo { _cba :: Int
-             , _cbb :: Int
-             , _cbc :: Int
-             , _teste :: String
-             }
-             deriving (Show)
-makeLenses ''UserInfo
+import Types
 
 -- mkForm :: UserInfo -> Form UserInfo e Name
-mkForm = newForm [ B.borderWithLabel (str "Campo 01") @@=
-                   editShowableField cba CbaField
-                 , B.borderWithLabel (str "Campo 02") @@=
-                   editShowableField cbb CbbField
-                 , B.borderWithLabel (str "Campo 03") @@=
-                   editShowableField cbc CbcField
-                ]
+mkForm = newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field1 Field1
+                 , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
+                 , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
+                 ]
 
 theMap :: AttrMap
 theMap = attrMap V.defAttr
   [ (E.editAttr, V.white `on` V.black)
   , (E.editFocusedAttr, V.black `on` V.green)
-  , (invalidFormInputAttr, V.white `on` V.red)
+  , (invalidFormInputAttr, V.black `on` V.red)
   , (focusedFormInputAttr, V.black `on` V.blue)
   ]
 
-draw :: Form UserInfo e Name -> [Widget Name]
+draw :: Form AppState e Name -> [Widget Name]
 draw f = [C.hCenter form]
     where
-        form = B.borderWithLabel (str "Campos de batalha") $ padAll 1 $ hLimit 20 $ renderForm f
+        form = B.border $
+               -- C.center $
+               -- padAll 1 $
+               hLimit 100 $
+               renderForm f
 
-app :: App (Form UserInfo e Name) e Name
+app :: App (Form AppState e Name) e Name
 app =
     App { appDraw = draw
         , appHandleEvent = handleEvent
@@ -85,18 +73,28 @@ app =
         }
 
 -- -| Função para manipular os eventos gerados pelo jogo
-handleEvent :: Form UserInfo e Name -> BrickEvent Name e -> EventM Name (Next (Form UserInfo e Name))
+handleEvent :: Form AppState e Name -> BrickEvent Name e -> EventM Name (Next (Form AppState e Name))
 handleEvent state (VtyEvent (V.EvResize {})) = continue state
 handleEvent state (VtyEvent (V.EvKey V.KEsc [])) = halt state
 handleEvent state event = do
   state' <- handleFormEvent event state
   -- Incluir validações aqui
-  let total = (formState state')^.cba + (formState state')^.cbb + (formState state')^.cbc
+  let total = (formState state')^.field1 + (formState state')^.field2 + (formState state')^.field3
   continue $
-   setFieldValid (total <= numeroDeTropas) CbaField (
-   setFieldValid (total <= numeroDeTropas) CbbField (
-   setFieldValid (total <= numeroDeTropas) CbcField state'
+   setFieldValid (total <= numeroDeTropas) Field1 (
+   setFieldValid (total <= numeroDeTropas) Field2 (
+   setFieldValid (total <= numeroDeTropas) Field3 state'
    ))
+
+mkInitialState =
+ AppState { _lastReportedClick = Nothing
+          , _tropasRestantesJogador = 150
+          , _nomeJogador = "Paulo da Silva"
+          , _dicaAtual = 0
+          , _field1 = 0
+          , _field2 = 0
+          , _field3 = 0
+          }
 
 main :: IO ()
 main = do
@@ -105,11 +103,7 @@ main = do
           V.setMode (V.outputIface v) V.Mouse True
           return v
 
-        initialUserInfo = UserInfo { _cba = 0
-                                   , _cbb = 0
-                                   , _cbc = 0
-                                   , _teste = "teste"
-                                   }
+        initialUserInfo = mkInitialState
         f = mkForm initialUserInfo
 
     initialVty <- buildVty
@@ -119,7 +113,7 @@ main = do
     print initialUserInfo
 
     putStr "Estado final: "
-    print $ (formState f')^.cba
+    print $ (formState f')^.field1
 
     if allFieldsValid f'
        then putStrLn "Todos os campos estão válidos."
