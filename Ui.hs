@@ -21,7 +21,7 @@ import Data.Monoid ((<>))
 import Control.Monad (void)
 
 import Brick
-import qualified Brick.Main as M
+import qualified Brick.Main
 import qualified Brick.AttrMap as AT
 import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
@@ -68,7 +68,7 @@ painelJogador st =
   B.border $
   hLimit 20 $
   C.center $
-  vBox [C.hCenter $ str $ "Jogador\n" <> st^.nomeJogador,
+  vBox [C.hCenter $ str $ "Jogador:\n" <> st^.nomeJogador,
         B.hBorder,
         jog st,
         B.hBorder,
@@ -119,6 +119,7 @@ mkInitialState =
            , _field3 = 0
            }
 
+
 main :: IO ()
 main = do
     let buildVty = do
@@ -127,4 +128,4 @@ main = do
           return v
 
     initialVty <- buildVty
-    void $ M.customMain initialVty buildVty Nothing app $ mkInitialState
+    void $ customMain initialVty buildVty Nothing app $ mkInitialState

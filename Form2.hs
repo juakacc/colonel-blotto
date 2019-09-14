@@ -48,7 +48,7 @@ data FormState =
             }
 
 mkForm :: AppState -> Form FormState e Name
-mkForm = newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field1 Field1
+mkForm = newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
                  , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
                  , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
                  ]
