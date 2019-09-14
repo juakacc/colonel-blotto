@@ -22,6 +22,7 @@ import Brick.Forms
   , focusedFormInputAttr
   , invalidFormInputAttr
   , editShowableField
+  , setFormFocus
   , (@@=)
   )
 import Brick.Focus
@@ -40,7 +41,13 @@ import Ui
  )
 import Types
 
--- mkForm :: UserInfo -> Form UserInfo e Name
+data FormState =
+  FormState { _field1 :: Int
+            , _field2 :: Int
+            , _field3 :: Int
+            }
+
+mkForm :: AppState -> Form FormState e Name
 mkForm = newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field1 Field1
                  , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
                  , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
@@ -54,37 +61,48 @@ theMap = attrMap V.defAttr
   , (focusedFormInputAttr, V.black `on` V.blue)
   ]
 
-draw :: Form AppState e Name -> [Widget Name]
-draw f = [C.hCenter form]
+draw :: AppState -> [Widget Name]
+draw st = [C.hCenter form]
     where
         form = B.border $
                -- C.center $
                -- padAll 1 $
                hLimit 100 $
-               renderForm f
+               renderForm $
+               setFormFocus Field1 $
+               mkForm $ mkState
 
-app :: App (Form AppState e Name) e Name
+mkState =
+  FormState { _field1 = 0
+            , _field2 = 0
+            , _field3 = 0
+            }
+
+-- app :: App (Form AppState e Name) e Name
+app :: App FormState e Name
 app =
     App { appDraw = draw
         , appHandleEvent = handleEvent
-        , appChooseCursor = focusRingCursor formFocus
+        -- , appChooseCursor = focusRingCursor formFocus
+        , appChooseCursor = showFirstCursor
         , appStartEvent = return
         , appAttrMap = const theMap
         }
 
 -- -| Função para manipular os eventos gerados pelo jogo
-handleEvent :: Form AppState e Name -> BrickEvent Name e -> EventM Name (Next (Form AppState e Name))
+-- handleEvent :: Form AppState e Name -> BrickEvent Name e -> EventM Name (Next (Form AppState e Name))
+-- handleEvent :: Form AppState e Name -> BrickEvent Name e -> EventM Name (Next (Form AppState e Name))
 handleEvent state (VtyEvent (V.EvResize {})) = continue state
 handleEvent state (VtyEvent (V.EvKey V.KEsc [])) = halt state
-handleEvent state event = do
-  state' <- handleFormEvent event state
+handleEvent state event = continue state
+  -- state' <- handleFormEvent event state
   -- Incluir validações aqui
-  let total = (formState state')^.field1 + (formState state')^.field2 + (formState state')^.field3
-  continue $
-   setFieldValid (total <= numeroDeTropas) Field1 (
-   setFieldValid (total <= numeroDeTropas) Field2 (
-   setFieldValid (total <= numeroDeTropas) Field3 state'
-   ))
+  -- let total = (formState state')^.field1 + (formState state')^.field2 + (formState state')^.field3
+  -- continue $
+  --  setFieldValid (total <= numeroDeTropas) Field1 (
+  --  setFieldValid (total <= numeroDeTropas) Field2 (
+  --  setFieldValid (total <= numeroDeTropas) Field3 state'
+  --  ))
 
 mkInitialState =
  AppState { _lastReportedClick = Nothing
@@ -107,14 +125,14 @@ main = do
         f = mkForm initialUserInfo
 
     initialVty <- buildVty
-    f' <- customMain initialVty buildVty Nothing app f
+    f' <- customMain initialVty buildVty Nothing app initialUserInfo
 
-    putStr "Estado inicial: "
-    print initialUserInfo
+    -- putStr "Estado inicial: "
+    -- print initialUserInfo
+    --
+    -- putStr "Estado final: "
+    print $ (initialUserInfo)^.field1
 
-    putStr "Estado final: "
-    print $ (formState f')^.field1
-
-    if allFieldsValid f'
-       then putStrLn "Todos os campos estão válidos."
-       else putStrLn $ "Os seguintes campos estão inválidos: " <> show (invalidFields f')
+    -- if allFieldsValid f'
+    --    then putStrLn "Todos os campos estão válidos."
+    --    else putStrLn $ "Os seguintes campos estão inválidos: " <> show (invalidFields f')
