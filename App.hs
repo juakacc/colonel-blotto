@@ -1,0 +1,1 @@
+-- módulo para gerenciar a aplicação

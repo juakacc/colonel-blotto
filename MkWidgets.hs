@@ -3,14 +3,16 @@
 module MkWidgets
 ( btnPlay
 , btnClean
+, btnMenu
 ) where
 
 import Types
 import Configs
+import qualified Theme as T
 
 import Control.Applicative ((<$>))
 import Lens.Micro ((^.))
-import Data.Monoid ((<>)) 
+import Data.Monoid ((<>))
 
 import Brick
 import Brick.Types (Widget)
@@ -27,7 +29,10 @@ mkButton (st, name, label, attr) =
      str (if wasClicked then "<" <> label <> ">" else label)
 
 btnPlay :: AppState -> Widget Name
-btnPlay st = mkButton (st, ButtonPlay, "Jogar", "ButtonPlay")
+btnPlay st = mkButton (st, ButtonPlay, "Jogar", T.btPlay)
 
 btnClean :: AppState -> Widget Name
-btnClean st = mkButton (st, ButtonClean, "Limpar", "ButtonClean")
+btnClean st = mkButton (st, ButtonClean, "Limpar", T.btClean)
+
+btnMenu :: AppState -> Widget Name
+btnMenu st = mkButton (st, ButtonMenu, "Menu", T.btMenu)
