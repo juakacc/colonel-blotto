@@ -16,20 +16,20 @@ getStrategy1 nTropas nCampos =
         cb2 = quot nTropas nCampos
         cb3 = nTropas - (cb1 + cb2)
 
--- Apenas para Teste
+-- | Apenas para Teste
 getStrategy2 :: Int -> Int -> [Int]
 getStrategy2 nTropas nCampos = [100,100,100]
 
--- |Sorteia um numero aleatório entre 1 e o n informado
+-- | Sorteia um numero aleatório entre 1 e o n informado
 getNumberRandom n = randomRIO(1, n) :: IO Int
 
--- |Invoca determinada estrategia, dependendo do numero sorteado
+-- | Invoca determinada estrategia, dependendo do numero sorteado
 getStrategyForNumber n
  | n == 1    = getStrategy1 numeroDeTropas numeroDeCampos
  -- | n == 2    = getStrategy2 numeroDeTropas numeroDeCampos
  | otherwise = getStrategyForNumber 1
 
--- |Retorna uma estratégia sorteada do conjunto de estratégias disponíveis
+-- | Retorna uma estratégia sorteada do conjunto de estratégias disponíveis
 getStrategy = do
  x <- getNumberRandom numeroDeEstrategias
  return $ getStrategyForNumber x

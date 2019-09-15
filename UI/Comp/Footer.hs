@@ -1,5 +1,6 @@
 module UI.Comp.Footer
 ( footer
+, footerWithText
 ) where
 
 import Lens.Micro ((^.))
@@ -9,7 +10,7 @@ import qualified Brick.Widgets.Border.Style as BS
 import qualified Brick.Widgets.Center as C
 
 import Types
-import Configs (dicas)
+import Configs (concepts)
 
 footer :: AppState -> Widget Name
 footer st =
@@ -17,4 +18,12 @@ footer st =
   B.border $
   vLimit 5 $
   C.center $
-  strWrap $ dicas !! (st^.dicaAtual)
+  strWrap $ concepts !! (st^.currentConcept)
+
+footerWithText :: String -> Widget Name
+footerWithText texto =
+  withBorderStyle BS.unicodeRounded $
+  B.borderWithLabel (str "<| Ajuda |>") $
+  vLimit 5 $
+  C.center $
+  strWrap $ texto

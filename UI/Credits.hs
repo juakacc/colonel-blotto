@@ -3,7 +3,10 @@ module UI.Credits
 ) where
 
 import Brick
+
 import Types
+import UI.Comp.Header
+import UI.Comp.Footer
 
 drawCredits :: AppState -> [Widget Name]
-drawCredits st = [str $ "render here"]
+drawCredits st = [header st <=> footer st]

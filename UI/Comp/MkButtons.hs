@@ -1,9 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
-module MkWidgets
+module UI.Comp.MkButtons
 ( btnPlay
 , btnClean
 , btnMenu
+, btnStart
+, btnExit
+, btnCredits
 ) where
 
 import Types
@@ -36,3 +39,12 @@ btnClean st = mkButton (st, ButtonClean, "Limpar", T.btClean)
 
 btnMenu :: AppState -> Widget Name
 btnMenu st = mkButton (st, ButtonMenu, "Menu", T.btMenu)
+
+btnStart :: AppState -> Widget Name
+btnStart st = mkButton (st, ButtonStart, "Iniciar", T.btStart)
+
+btnExit :: AppState -> Widget Name
+btnExit st = mkButton (st, ButtonExit, "Sair", T.btExit)
+
+btnCredits :: AppState -> Widget Name
+btnCredits st = mkButton (st, ButtonCredits, "Sobre", T.btCredits)

@@ -4,9 +4,8 @@ module UI.Play
 ( drawPlay
 ) where
 
-import MkWidgets
+import UI.Comp.MkButtons
 import Types
-import Events
 import UI.Comp.Header
 import UI.Comp.Footer
 
@@ -48,16 +47,21 @@ qtdJogador x =
   str $ show x
 
 bot =
-  vBox [C.center $ str $ "  Tropas\n" <>
-                       "adversárias", C.hCenter $ qtdJogador 40]
+  vBox [C.center $ str $ "C-c"]
 
 painelEsquerdo :: AppState -> Widget Name
-painelEsquerdo _ =
+painelEsquerdo st =
   withBorderStyle BS.unicodeRounded $
   B.border $
   hLimit 20 $
-  C.center $
-  vBox [C.hCenter $ withDefAttr negrito $ str "Coronel Blotto", B.hBorder, bot]
+  -- C.center $
+  vBox [ B.hBorder
+       , btnCredits st
+       , B.hBorder
+       , C.hCenter $ withDefAttr negrito $ str "Atalhos"
+       , B.hBorder
+       , bot
+       ]
 
 jog :: AppState -> Widget Name
 jog st =
@@ -72,7 +76,7 @@ painelDireito st =
   C.center $
   vBox [C.hCenter $ btnMenu st,
         B.hBorder,
-        C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (str $ st^.nomeJogador),
+        C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ st^.nomeJogador),
         B.hBorder,
         jog st,
         B.hBorder,
@@ -102,7 +106,7 @@ form st =
 
 drawPlay :: AppState -> [Widget Name]
 drawPlay st =
-  [header
+  [header st
   <=>
   (C.hCenterLayer $ hBox [painelEsquerdo st, form st, painelDireito st])
   <=> footer st]

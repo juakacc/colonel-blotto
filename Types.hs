@@ -7,13 +7,14 @@ module Types
   , uiScreen
   , lastReportedClick
   , tropasRestantesJogador
-  , dicaAtual
+  , currentConcept
   , nomeJogador
   , field1
   , field2
   , field3
   -- , jogadorFields
   -- , colonelFields
+  , currentScreen
   ) where
 
 import Lens.Micro.TH (makeLenses)
@@ -21,6 +22,9 @@ import Lens.Micro.TH (makeLenses)
 data Name = ButtonPlay
           | ButtonClean
           | ButtonMenu
+          | ButtonStart
+          | ButtonExit
+          | ButtonCredits
           | Field1
           | Field2
           | Field3
@@ -47,10 +51,13 @@ data AppState =
 
            , _nomeJogador :: String
 
-           , _dicaAtual :: Int
+           , _currentConcept :: Int
            }
            -- deriving (Show)
 makeLenses ''AppState
 
 -- Data para representar o vencedor em um campo
 data Value = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
+
+currentScreen :: AppState -> UIScreen
+currentScreen st = _uiScreen st

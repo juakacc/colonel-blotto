@@ -2,7 +2,7 @@ module Configs
 ( numeroDeCampos
 , numeroDeTropas
 , numeroDeEstrategias
-, dicas
+, concepts
 ) where
 
 -- Configurações gerais do jogo
@@ -18,8 +18,7 @@ numeroDeEstrategias = 1
 
 
 -- 10 de setembro, 15:25
-
-dicas =
+concepts =
   [ "O coronel Blotto é um jogo de soma zero, o seu ganho é diretamente proporcional a perda do seu adversário"
   , "O coronel Blotto é um jogo não-cooperativo, você não colabora para que o seu adversário ganhe, mas sim busca uma estratégia para ganhar dele"
   , "O coronel Blotto é um jogo simultâneo, você distribui as suas tropas ao mesmo tempo que o seu adversário também distribui"

@@ -13,17 +13,17 @@ app :: App AppState e Name
 app =
   App { appDraw = drawUI
       , appStartEvent = return
-      , appHandleEvent = appEvent
+      , appHandleEvent = handleEvent
       , appAttrMap = const theme
       , appChooseCursor = showFirstCursor
       }
 
 mkInitialState =
-  AppState { _uiScreen = Credits
+  AppState { _uiScreen = Initial
            , _lastReportedClick = Nothing
            , _tropasRestantesJogador = 150
            , _nomeJogador = "Paulo da Silva"
-           , _dicaAtual = 0
+           , _currentConcept = 0
            , _field1 = 0
            , _field2 = 0
            , _field3 = 0

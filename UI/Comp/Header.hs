@@ -8,11 +8,17 @@ import qualified Brick.Widgets.Border.Style as BS
 import qualified Brick.Widgets.Center as C
 
 import Theme
+import Types
+import UI.Comp.MkButtons
 
-header =
+header :: AppState -> Widget Name
+header st =
   withBorderStyle BS.unicodeRounded $
   B.border $
   vLimit 3 $
-  C.center $
-  withDefAttr negrito $
-  str "CORONEL BLOTTO - Teoria dos Jogos"
+  hBox [ C.center $
+         withDefAttr negrito $
+         str "CORONEL BLOTTO - Teoria dos Jogos"
+       , B.vBorder
+       , btnCredits st
+       ]
