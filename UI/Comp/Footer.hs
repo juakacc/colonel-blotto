@@ -1,4 +1,4 @@
-module UI.Footer
+module UI.Comp.Footer
 ( footer
 ) where
 

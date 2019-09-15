@@ -1,4 +1,4 @@
-module UI.Header
+module UI.Comp.Header
 ( header
 ) where
 
