@@ -7,6 +7,8 @@ import Lens.Micro ((^.))
 import Lens.Micro.TH
 import Data.Monoid ((<>))
 
+import Lens.Micro.TH (makeLenses)
+
 import qualified Graphics.Vty as V
 import Brick
 import Brick.Forms
@@ -39,16 +41,15 @@ import UI.Comp.Header
 import UI.Comp.Footer
 import Types
 
--- data FormState =
---   FormState { _field1 :: Int
---             , _field2 :: Int
---             , _field3 :: Int
---             }
+data FormState =
+  FormState { _fieldsForm :: [Int]
+            }
+makeLenses ''FormState
 
-mkForm :: AppState -> Form AppState e Name
-mkForm = newForm [ B.border @@= editShowableField (fields !! 0) Field1
-                 , B.borderWithLabel (str "-") @@= editShowableField (fields !! 2) Field2
-                 , B.borderWithLabel (str "-") @@= editShowableField (fields !! 3) Field3
+mkForm :: FormState -> Form FormState e Name
+mkForm = newForm [ B.border @@= editShowableField ((fieldsForm) !! 0) Field1
+                 , B.borderWithLabel (str "-") @@= editShowableField (fieldsForm !! 2) Field2
+                 , B.borderWithLabel (str "-") @@= editShowableField (fieldsForm !! 3) Field3
                  ]
 
 theMap :: AttrMap
@@ -71,9 +72,7 @@ draw st = [C.hCenter form]
                mkForm $ mkState
 
 mkState =
-  FormState { _field1 = 0
-            , _field2 = 0
-            , _field3 = 0
+  FormState { _fieldsForm = [0, 0, 0]
             }
 
 -- app :: App (Form AppState e Name) e Name
@@ -110,6 +109,10 @@ mkInitialState =
           , _fields = [0, 0, 0]
           }
 
+mkFormState =
+  FormState { _fieldsForm = [0,0,0]
+            }
+
 main :: IO ()
 main = do
     let buildVty = do
@@ -117,7 +120,7 @@ main = do
           V.setMode (V.outputIface v) V.Mouse True
           return v
 
-        initialUserInfo = mkInitialState
+        initialUserInfo = mkFormState
         f = mkForm initialUserInfo
 
     initialVty <- buildVty
@@ -127,7 +130,7 @@ main = do
     -- print initialUserInfo
     --
     -- putStr "Estado final: "
-    print $ (initialUserInfo)^.field1
+    print $ ((initialUserInfo)^.fieldsForm) !! 0
 
     -- if allFieldsValid f'
     --    then putStrLn "Todos os campos estão válidos."
