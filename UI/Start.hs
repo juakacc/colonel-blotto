@@ -19,6 +19,6 @@ drawStart st = [header st <=> (btnStart st <+> B.vBorder <+> btnExit st) <=> foo
 
 footerS :: Widget Name
 footerS =
-  footerWithText $ "Preparado para jogar Coronel Blotto? Adiante temos uma " <>
-                   "implementação simples dele, é um jogo muito utilizado na Teoria dos Jogos. " <>
-                   "Essa é a área de ajuda, ao longo do jogo serão apresentadas dicas e conceitos sobre o assunto."
+  footerWithText "Ajuda" $ "Preparado para jogar Coronel Blotto? Adiante temos uma " <>
+                           "implementação simples dele, é um jogo muito utilizado na Teoria dos Jogos. " <>
+                           "Essa é a área de ajuda, ao longo do jogo serão apresentadas dicas e conceitos sobre o assunto."

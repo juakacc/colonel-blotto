@@ -20,10 +20,10 @@ footer st =
   C.center $
   strWrap $ concepts !! (st^.currentConcept)
 
-footerWithText :: String -> Widget Name
-footerWithText texto =
+footerWithText :: String -> String -> Widget Name
+footerWithText title text =
   withBorderStyle BS.unicodeRounded $
-  B.borderWithLabel (str "<| Ajuda |>") $
+  B.borderWithLabel (str $ "<| " <> title <> " |>") $
   vLimit 5 $
   C.center $
-  strWrap $ texto
+  strWrap $ text

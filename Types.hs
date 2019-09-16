@@ -9,9 +9,11 @@ module Types
   , tropasRestantesJogador
   , currentConcept
   , nomeJogador
-  , field1
-  , field2
-  , field3
+  , fields
+  , level
+  -- , field1
+  -- , field2
+  -- , field3
   -- , jogadorFields
   -- , colonelFields
   , currentScreen
@@ -37,10 +39,11 @@ data AppState =
   AppState { _uiScreen :: UIScreen
            , _lastReportedClick :: Maybe Name
            , _tropasRestantesJogador :: Int
-
-           , _field1 :: Int
-           , _field2 :: Int
-           , _field3 :: Int
+           , _level :: Int
+           , _fields :: [Int]
+           -- , _field1 :: Int
+           -- , _field2 :: Int
+           -- , _field3 :: Int
            -- , _jogadorFields :: [Int]
            -- , _jogadorField2 :: Int
            -- , _jogadorField3 :: Int

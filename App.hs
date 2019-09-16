@@ -24,9 +24,8 @@ mkInitialState =
            , _tropasRestantesJogador = 150
            , _nomeJogador = "Paulo da Silva"
            , _currentConcept = 0
-           , _field1 = 0
-           , _field2 = 0
-           , _field3 = 0
+           , _fields = [10,20,30]
+           , _level = 1
            }
 
 main :: IO ()

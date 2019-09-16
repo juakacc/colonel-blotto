@@ -17,6 +17,7 @@ import Data.Monoid ((<>))
 
 import Brick
 import qualified Brick.Main
+import Brick.Widgets.Core
 -- import qualified Brick.AttrMap as AT
 import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
@@ -47,7 +48,7 @@ qtdJogador x =
   str $ show x
 
 bot =
-  vBox [C.center $ str $ "C-c"]
+  vBox [C.center $ str $ "C-s -> Sair"]
 
 painelEsquerdo :: AppState -> Widget Name
 painelEsquerdo st =
@@ -55,8 +56,7 @@ painelEsquerdo st =
   B.border $
   hLimit 20 $
   -- C.center $
-  vBox [ B.hBorder
-       , btnCredits st
+  vBox [ C.hCenter $ btnMenu st
        , B.hBorder
        , C.hCenter $ withDefAttr negrito $ str "Atalhos"
        , B.hBorder
@@ -65,8 +65,7 @@ painelEsquerdo st =
 
 jog :: AppState -> Widget Name
 jog st =
-  vBox [C.hCenter $ str $ " Tropas\n" <>
-                          "restantes", C.center $ qtdJogador $ st^.tropasRestantesJogador]
+  vBox [C.hCenter $ str "Tropas", C.center $ qtdJogador $ st^.tropasRestantesJogador]
 
 painelDireito :: AppState -> Widget Name
 painelDireito st =
@@ -74,17 +73,14 @@ painelDireito st =
   B.border $
   hLimit 20 $
   C.center $
-  vBox [C.hCenter $ btnMenu st,
-        B.hBorder,
-        C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ st^.nomeJogador),
+  vBox [C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ st^.nomeJogador),
         B.hBorder,
         jog st,
         B.hBorder,
         C.hCenter $ withDefAttr negrito $ str $ "Coronel Blotto",
         B.hBorder,
         C.hCenter $
-        str $ "  Tropas\n"<>
-              "adversárias",
+        str "Tropas",
         C.center $ qtdCoronel $ st^.tropasRestantesJogador,
         B.hBorder,
         padBottom (Pad 1) $
@@ -99,9 +95,9 @@ form st =
   -- setAvailableSize (50,50) $
   C.center $
   hBox
-    [ translateBy (Location (0, 0)) $ qtdJogador 0
-    , translateBy (Location (5, 10)) $ qtdJogador 15
-    , translateBy (Location (10, 5)) $ qtdJogador 10
+    [ translateBy (Location (0, 0)) $ qtdJogador $ (st^.fields) !! 0
+    , translateBy (Location (5, 10)) $ qtdJogador $ (st^.fields) !! 1
+    , translateBy (Location (10, 5)) $ qtdJogador $ (st^.fields) !! 2
     ]
 
 drawPlay :: AppState -> [Widget Name]

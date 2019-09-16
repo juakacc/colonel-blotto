@@ -18,7 +18,7 @@ handlePlayEvent st e =
       case n of
         ButtonPlay  -> continue $ st' & currentConcept .~ nextConcept(st'^.currentConcept)
         ButtonMenu  -> continue $ st' & uiScreen .~ Initial
-        ButtonClean -> continue $ st' -- Limpar os fields
+        ButtonClean -> continue $ st' & fields .~ cleanFields st'
         ButtonCredits -> continue $ st' & uiScreen .~ Credits
         _           -> continue $ st'
     MouseUp _ _ _ -> continue $ st & lastReportedClick .~ Nothing
@@ -28,3 +28,10 @@ handlePlayEvent st e =
 -- é retornado ao primeiro indice
 nextConcept :: Int -> Int
 nextConcept n = if n < (length concepts) - 1 then n + 1 else 0
+
+cleanFields :: AppState -> [Int]
+cleanFields st =
+  case (st^.level) of
+    1 -> [0, 0, 0]
+    2 -> [0, 0, 0, 0]
+    _ -> [0, 0, 0]
