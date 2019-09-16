@@ -6,6 +6,7 @@ import Types
 import Configs(concepts)
 import Events.Start
 import Events.Play
+import Events.Credits
 
 import Brick
 -- import qualified Brick.Main as M
@@ -28,6 +29,6 @@ handleEvent st e = do
     case currentScreen st of
       Initial -> handleStartEvent st e
       Play -> handlePlayEvent st e
-      Credits -> handleStartEvent st e
+      Credits -> handleCreditsEvent st e
       -- _ -> handleStartEvent st e
 -- handleEvent st _ = continue st

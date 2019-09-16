@@ -8,7 +8,3 @@ imprimir_tela_inicial = do
   putStrLn("::::: COLONEL BLOTTO :::::")
   putStrLn("--------------------------")
   putStrLn("")
-
--- teoria dos jogos
--- mais jogos
--- informações sobre o jogo, pesquisa

@@ -7,6 +7,8 @@ import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Border.Style as BS
 import qualified Brick.Widgets.Center as C
 
+import Lens.Micro ((^.), (&), (.~), (%~))
+
 import Theme
 import Types
 import UI.Comp.MkButtons
@@ -20,5 +22,5 @@ header st =
          withDefAttr negrito $
          str "CORONEL BLOTTO - Teoria dos Jogos"
        , B.vBorder
-       , btnCredits st
+       , if st^.uiScreen == Credits then btnMenu st else btnCredits st
        ]

@@ -31,7 +31,7 @@ data Name = ButtonPlay
           | NameField
           deriving (Show, Ord, Eq)
 
-data UIScreen = Initial | Play | Credits
+data UIScreen = Initial | Play | Credits  deriving (Eq)
 
 data AppState =
   AppState { _uiScreen :: UIScreen
