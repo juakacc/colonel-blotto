@@ -35,22 +35,20 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border.Style as BS
 
 import Configs (numeroDeTropas)
-import Ui
- ( header
- , footer
- )
+import UI.Comp.Header
+import UI.Comp.Footer
 import Types
 
-data FormState =
-  FormState { _field1 :: Int
-            , _field2 :: Int
-            , _field3 :: Int
-            }
+-- data FormState =
+--   FormState { _field1 :: Int
+--             , _field2 :: Int
+--             , _field3 :: Int
+--             }
 
-mkForm :: AppState -> Form FormState e Name
-mkForm = newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
-                 , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
-                 , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
+mkForm :: AppState -> Form AppState e Name
+mkForm = newForm [ B.border @@= editShowableField (fields !! 0) Field1
+                 , B.borderWithLabel (str "-") @@= editShowableField (fields !! 2) Field2
+                 , B.borderWithLabel (str "-") @@= editShowableField (fields !! 3) Field3
                  ]
 
 theMap :: AttrMap
@@ -109,9 +107,7 @@ mkInitialState =
           , _tropasRestantesJogador = 150
           , _nomeJogador = "Paulo da Silva"
           , _currentConcept = 0
-          , _field1 = 0
-          , _field2 = 0
-          , _field3 = 0
+          , _fields = [0, 0, 0]
           }
 
 main :: IO ()
