@@ -4,25 +4,30 @@ module UI.Play
 ( drawPlay
 ) where
 
-import UI.Comp.MkButtons
-import Types
 import UI.Comp.Header
 import UI.Comp.Footer
-
+import UI.Comp.MkButtons
 import Configs
 import Theme
+import Types
 
-import Lens.Micro ((^.), (&), (.~), (%~))
 import Data.Monoid ((<>))
+import Lens.Micro ((^.), (&), (.~), (%~))
 
 import Brick
+import Brick.Widgets.Core
 import qualified Brick.Forms as F
 import qualified Brick.Main
-import Brick.Widgets.Core
--- import qualified Brick.AttrMap as AT
 import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Border.Style as BS
+
+drawPlay :: AppState -> [Widget Name]
+drawPlay st =
+  [header st
+  <=>
+  (C.hCenterLayer $ hBox [painelEsquerdo st, form st, painelDireito st])
+  <=> footer st]
 
 qtdCoronel :: Int -> Widget Name
 qtdCoronel x =
@@ -48,9 +53,6 @@ qtdJogador x =
   withDefAttr fAzul $
   str $ show x
 
-bot =
-  vBox [C.center $ str $ "C-s -> Sair"]
-
 painelEsquerdo :: AppState -> Widget Name
 painelEsquerdo st =
   withBorderStyle BS.unicodeRounded $
@@ -61,7 +63,7 @@ painelEsquerdo st =
        , B.hBorder
        , C.hCenter $ withDefAttr negrito $ str "Atalhos"
        , B.hBorder
-       , bot
+       , C.center $ str $ "C-s -> Sair"
        ]
 
 painelDireito :: AppState -> Widget Name
@@ -90,15 +92,3 @@ form st =
   -- hLimit 35 $
   -- setAvailableSize (50,50) $
   C.center $ F.renderForm $ st^.formFields
-  -- hBox
-  --   [ translateBy (Location (0, 0)) $ qtdJogador $ (st^.fields) !! 0
-  --   , translateBy (Location (5, 10)) $ qtdJogador $ (st^.fields) !! 1
-  --   , translateBy (Location (10, 5)) $ qtdJogador $ (st^.fields) !! 2
-  --   ]
-
-drawPlay :: AppState -> [Widget Name]
-drawPlay st =
-  [header st
-  <=>
-  (C.hCenterLayer $ hBox [painelEsquerdo st, form st, painelDireito st])
-  <=> footer st]

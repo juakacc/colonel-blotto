@@ -34,10 +34,8 @@ import qualified Brick.Widgets.Center as C
 import qualified Brick.Widgets.Border.Style as BS
 
 import Configs (numeroDeTropas)
-import Ui
- ( header
- , footer
- )
+import UI.Comp.Header
+import UI.Comp.Footer
 
 data Name = CbaField
           | CbbField

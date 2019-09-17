@@ -10,11 +10,7 @@ import Lens.Micro ((^.), (&), (.~), (%~))
 
 import Types
 import Configs(concepts)
-
--- pegar form do Estado
--- pegar estado do form
--- zerar estado do form
--- atualizar form no estado geral
+import UI
 
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
@@ -24,8 +20,8 @@ handlePlayEvent st e =
       case n of
         ButtonPlay    -> continue $ st' & currentConcept .~ nextConcept(st'^.currentConcept)
         ButtonMenu    -> continue $ st' & uiScreen .~ Initial
-        ButtonClean   -> continue $ st' & fields .~ cleanFields st'
-                                        -- & formFields .~ cleanForm $ st'^.formFields
+        ButtonClean   -> continue $ st' & fields .~ cleanFields st'  -- verificar necessidade
+                                        & formFields .~ cleanForm
         ButtonCredits -> continue $ st' & uiScreen .~ Credits
         _             -> continue $ st'
     MouseUp _ _ _ -> continue $ st & lastReportedClick .~ Nothing
@@ -33,14 +29,8 @@ handlePlayEvent st e =
       f' <- F.handleFormEvent e $ st^.formFields
       continue $ st & formFields .~ f'
 
--- cleanFields :: FormFields -> FormFields
-cleanForm f = F.formState f & field1 .~ 0
-    -- estadoForm <- formState f
-    -- novo <- estadoForm & field1 .~ 0
-    -- return novo
-    -- novo = st & formFields .~ newForm
-    --
-    -- novo =
+cleanForm :: FormFields
+cleanForm = mkFormFields mkFormFieldsState
 
 -- | Próximo conceito a ser exibido, caso seja o último da lista
 -- é retornado ao primeiro indice

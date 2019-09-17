@@ -1,6 +1,7 @@
 module UI
 ( drawUI
 , mkFormFields
+, mkFormFieldsState
 ) where
 
 import Lens.Micro
@@ -22,9 +23,10 @@ drawUI st =
     Play    -> drawPlay st
     Credits -> drawCredits st
 
+-- Criando estados da tela do jogo
+-- Remanejar para outro arquivo
 
-
--- mkFormFieldsState :: FieldsState
+mkFormFieldsState :: FieldsState
 mkFormFieldsState =
   FieldsState { _field1 = 0
               , _field2 = 0

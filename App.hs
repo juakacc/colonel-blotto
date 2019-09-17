@@ -18,12 +18,6 @@ app =
       , appChooseCursor = showFirstCursor
       }
 
-mkFormFieldsState =
-  FieldsState { _field1 = 0
-              , _field2 = 0
-              , _field3 = 0
-              }
-
 mkInitialState =
   AppState { _uiScreen = Initial
            , _lastReportedClick = Nothing
