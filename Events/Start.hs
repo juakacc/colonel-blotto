@@ -16,7 +16,7 @@ handleStartEvent st e =
       let st' = st & lastReportedClick .~ Just n
       case n of
         ButtonExit  -> halt st'
-        ButtonStart -> continue $ st' & uiScreen .~ Play
+        ButtonStart -> continue $ st' & uiScreen .~ Play -- Verificar informações e setar no estado geral
         ButtonCredits -> continue $ st' & uiScreen .~ Credits
         _           -> continue $ st'
 

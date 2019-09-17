@@ -10,24 +10,6 @@ import Data.Monoid ((<>))
 import qualified Graphics.Vty as V
 import Brick
 import Brick.Forms
-  ( Form
-  , newForm
-  , formState
-  , formFocus
-  , setFieldValid
-  , renderForm
-  , handleFormEvent
-  , invalidFields
-  , allFieldsValid
-  , focusedFormInputAttr
-  , invalidFormInputAttr
-  , checkboxField
-  , radioField
-  , editShowableField
-  , editTextField
-  , editPasswordField
-  , (@@=)
-  )
 import Brick.Focus
   ( focusGetCurrent
   , focusRingCursor
@@ -37,53 +19,44 @@ import qualified Brick.Widgets.Border as B
 import qualified Brick.Widgets.Center as C
 
 data Name = NameField
-          | AgeField
-          | BikeField
-          | HandedField
-          | PasswordField
-          | LeftHandField
-          | RightHandField
-          | AmbiField
-          | AddressField
+          | NumberFields
+          | ThreeField
+          | FourField
+          | FiveField
+
+          | NumberSoldiers
+          | LittleField
+          | MediumField
+          | VeryField
           deriving (Eq, Ord, Show)
 
-data Handedness = LeftHanded | RightHanded | Ambidextrous
-                deriving (Show, Eq)
+-- | Quantidade de tropas e campos de batalha
+data Quantity = Little | Medium | Very
+              deriving (Show, Eq)
 
-data UserInfo =
-    UserInfo { _name      :: T.Text
-             , _age       :: Int
-             , _address   :: T.Text
-             , _ridesBike :: Bool
-             , _handed    :: Handedness
-             , _password  :: T.Text
-             }
-             deriving (Show)
+data InfoState =
+    InfoState { _name      :: T.Text
+              , _soldiers  :: Quantity
+              , _fields     :: Quantity
+              } deriving (Show)
+makeLenses ''InfoState
 
-makeLenses ''UserInfo
-
--- This form is covered in the Brick User Guide; see the "Input Forms"
--- section.
-mkForm :: UserInfo -> Form UserInfo e Name
+mkForm :: InfoState -> Form InfoState e Name
 mkForm =
     let label s w = padBottom (Pad 1) $
-                    (vLimit 1 $ hLimit 15 $ str s <+> fill ' ') <+> w
-    in newForm [ label "Name" @@=
+                    (vLimit 1 $ hLimit 10 $ str s <+> fill ' ') <+> w
+    in newForm [ label "Nome" @@=
                    editTextField name NameField (Just 1)
-               , label "Address" @@=
-                 B.borderWithLabel (str "Mailing") @@=
-                   editTextField address AddressField (Just 3)
-               , label "Age" @@=
-                   editShowableField age AgeField
-               , label "Password" @@=
-                   editPasswordField password PasswordField
-               , label "Dominant hand" @@=
-                   radioField handed [ (LeftHanded, LeftHandField, "Left")
-                                     , (RightHanded, RightHandField, "Right")
-                                     , (Ambidextrous, AmbiField, "Both")
+               , label "Nº Tropas" @@=
+                   radioField soldiers [ (Little, LittleField, "100")
+                                       , (Medium, MediumField, "150")
+                                       , (Very, VeryField, "200")
+                                       ]
+               , label "Nº Campos" @@=
+                   radioField fields [ (Little, ThreeField, "3")
+                                     , (Medium, FourField, "4")
+                                     , (Very, FiveField, "5")
                                      ]
-               , label "" @@=
-                   checkboxField ridesBike BikeField "Do you ride a bicycle?"
                ]
 
 theMap :: AttrMap
@@ -94,7 +67,7 @@ theMap = attrMap V.defAttr
   , (focusedFormInputAttr, V.black `on` V.yellow)
   ]
 
-draw :: Form UserInfo e Name -> [Widget Name]
+draw :: Form InfoState e Name -> [Widget Name]
 draw f = [C.vCenter $ C.hCenter form <=> C.hCenter help]
     where
         form = B.border $ padTop (Pad 1) $ hLimit 50 $ renderForm f
@@ -106,22 +79,19 @@ draw f = [C.vCenter $ C.hCenter form <=> C.hCenter help]
                      "- The last option is a checkbox\n" <>
                      "- Enter/Esc quit, mouse interacts with fields"
 
-app :: App (Form UserInfo e Name) e Name
+app :: App (Form InfoState e Name) e Name
 app =
     App { appDraw = draw
         , appHandleEvent = \s ev ->
             case ev of
                 VtyEvent (V.EvResize {})     -> continue s
                 VtyEvent (V.EvKey V.KEsc [])   -> halt s
-                -- Enter quits only when we aren't in the multi-line editor.
-                VtyEvent (V.EvKey V.KEnter [])
-                    | focusGetCurrent (formFocus s) /= Just AddressField -> halt s
+                -- VtyEvent (V.EvKey V.KEnter [])
+                    -- | focusGetCurrent (formFocus s) /= Just AddressField -> halt s
                 _ -> do
                     s' <- handleFormEvent ev s
-
-                    -- Example of external validation:
-                    -- Require age field to contain a value that is at least 18.
-                    continue $ setFieldValid ((formState s')^.age >= 18) AgeField s'
+                    -- continue $ setFieldValid ((formState s')^.age >= 18) AgeField s'
+                    continue s'
 
         , appChooseCursor = focusRingCursor formFocus
         , appStartEvent = return
@@ -135,21 +105,17 @@ main = do
           V.setMode (V.outputIface v) V.Mouse True
           return v
 
-        initialUserInfo = UserInfo { _name = ""
-                                   , _address = ""
-                                   , _age = 0
-                                   , _handed = RightHanded
-                                   , _ridesBike = False
-                                   , _password = ""
+        initialInfoState = InfoState { _name = ""
+                                   , _soldiers = Little
+                                   , _fields = Little
                                    }
-        f = setFieldValid False AgeField $
-            mkForm initialUserInfo
+        f = mkForm initialInfoState
 
     initialVty <- buildVty
     f' <- customMain initialVty buildVty Nothing app f
 
     putStrLn "The starting form state was:"
-    print initialUserInfo
+    print initialInfoState
 
     putStrLn "The final form state was:"
     print $ formState f'

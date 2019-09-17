@@ -11,7 +11,7 @@ import Configs
 import Theme
 import Types
 
-import Data.Monoid ((<>))
+import qualified Data.Text as T
 import Lens.Micro ((^.), (&), (.~), (%~))
 
 import Brick
@@ -72,14 +72,14 @@ painelDireito st =
   B.border $
   hLimit 20 $
   C.center $
-  vBox [C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ st^.nomeJogador),
+  vBox [C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ T.unpack $ st^.playerName),
         B.hBorder,
-        C.hCenter $ (C.vCenter $ str "Tropas: ") <+> (qtdJogador $ st^.tropasRestantesJogador),
+        C.hCenter ((C.vCenter $ str "Tropas: ") <+> C.vCenter (qtdJogador $ st^.remainingSoldiers)),
         B.hBorder,
         C.hCenter $ withDefAttr negrito $ str $ "Coronel Blotto",
         B.hBorder,
         C.hCenter $
-        C.hCenter $ (C.vCenter $ str "Tropas: ") <+> (qtdCoronel $ st^.tropasRestantesJogador),
+        C.hCenter ((C.vCenter $ str "Tropas: ") <+> C.vCenter (qtdCoronel $ st^.remainingSoldiers)),
         B.hBorder,
         padBottom (Pad 1) $
         C.hCenter $ btnPlay st,

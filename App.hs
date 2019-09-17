@@ -3,11 +3,13 @@ module App where
 import qualified Graphics.Vty as V
 import Brick
 import Control.Monad (void)
+import qualified Data.Text as T
 
+import Events
 import Types
 import Theme
 import UI
-import Events
+import UI.Comp.MkForms
 
 app :: App AppState AppEvent Name
 app =
@@ -21,12 +23,16 @@ app =
 mkInitialState =
   AppState { _uiScreen = Initial
            , _lastReportedClick = Nothing
-           , _tropasRestantesJogador = 150
-           , _nomeJogador = "Paulo da Silva"
+           , _remainingSoldiers = 70
+           , _quantitySoldiers = 150
            , _currentConcept = 0
            , _fields = [10,20,30]
-           , _level = 1
            , _formFields = mkFormFields mkFormFieldsState
+
+           , _formInfos = mkFormInfos mkFormInfosState
+           , _playerName = T.pack "Paulo da Silva"
+           , _qtdSoldiers = Little
+           , _qtdFields = Little
            }
 
 main :: IO ()

@@ -15,7 +15,7 @@ import Lens.Micro ((^.), (&), (.~), (%~))
 
 -- handleEvent :: AppState -> BrickEvent Name e -> EventM Name (Next AppState)
 -- handleEvent st (MouseDown n _ _ _) = M.continue $ st & lastReportedClick .~ Just n
---                                                   & tropasRestantesJogador .~ 50
+--                                                   & remainingSoldiers .~ 50
 --                                                   & currentConcept .~ if n == ButtonPlay then proximaDica (st^.currentConcept) else st^.currentConcept
 -- handleEvent st (MouseUp _ _ _) = M.continue $ st & lastReportedClick .~ Nothing
 -- handleEvent st (VtyEvent (V.EvMouseUp _ _ _)) = M.continue $ st & lastReportedClick .~ Nothing

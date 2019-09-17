@@ -60,7 +60,7 @@ theme = attrMap defAttr
   , (btClean, black `on` white)
   , (btMenu, white `on` blue)
   , (btStart, white `on` green)
-  , (btExit, black `on` red)
+  , (btExit, white `on` red)
   , (btCredits, white `on` magenta)
   -- Forms
   , (invalidFormInputAttr, white `on` red)

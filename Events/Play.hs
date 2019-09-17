@@ -10,7 +10,7 @@ import Lens.Micro ((^.), (&), (.~), (%~))
 
 import Types
 import Configs(concepts)
-import UI
+import UI.Comp.MkForms(mkFormFields, mkFormFieldsState)
 
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
@@ -39,7 +39,7 @@ nextConcept n = if n < (length concepts) - 1 then n + 1 else 0
 
 cleanFields :: AppState -> [Int]
 cleanFields st =
-  case (st^.level) of
-    1 -> [0, 0, 0]
-    2 -> [0, 0, 0, 0]
-    _ -> [0, 0, 0]
+  case (st^.qtdFields) of
+    Little -> [0, 0, 0]
+    Medium -> [0, 0, 0, 0]
+    _ -> [0, 0, 0, 0]

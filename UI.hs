@@ -1,14 +1,9 @@
 module UI
 ( drawUI
-, mkFormFields
-, mkFormFieldsState
 ) where
 
 import Lens.Micro
 import Brick
-import Brick.Forms
-import qualified Brick.Widgets.Border as B
-import qualified Brick.Widgets.Border.Style as BS
 
 import Types
 import UI.Play
@@ -22,20 +17,3 @@ drawUI st =
     Initial -> drawStart st
     Play    -> drawPlay st
     Credits -> drawCredits st
-
--- Criando estados da tela do jogo
--- Remanejar para outro arquivo
-
-mkFormFieldsState :: FieldsState
-mkFormFieldsState =
-  FieldsState { _field1 = 0
-              , _field2 = 0
-              , _field3 = 0
-              }
-
-mkFormFields :: FieldsState -> Form FieldsState AppEvent Name
-mkFormFields =
-  newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
-          , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
-          , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
-          ]
