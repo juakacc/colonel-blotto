@@ -9,7 +9,7 @@ import Theme
 import UI
 import Events
 
-app :: App AppState e Name
+app :: App AppState AppEvent Name
 app =
   App { appDraw = drawUI
       , appStartEvent = return
@@ -17,6 +17,12 @@ app =
       , appAttrMap = const theme
       , appChooseCursor = showFirstCursor
       }
+
+mkFormFieldsState =
+  FieldsState { _field1 = 0
+              , _field2 = 0
+              , _field3 = 0
+              }
 
 mkInitialState =
   AppState { _uiScreen = Initial
@@ -26,6 +32,7 @@ mkInitialState =
            , _currentConcept = 0
            , _fields = [10,20,30]
            , _level = 1
+           , _formFields = mkFormFields mkFormFieldsState
            }
 
 main :: IO ()

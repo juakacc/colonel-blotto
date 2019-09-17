@@ -11,14 +11,20 @@ module Types
   , nomeJogador
   , fields
   , level
-  -- , field1
-  -- , field2
-  -- , field3
+  , formFields
+
+  , AppEvent
+  , FormFields
+  , FieldsState(..)
+  , field1
+  , field2
+  , field3
   -- , jogadorFields
   -- , colonelFields
   , currentScreen
   ) where
 
+import Brick.Forms(Form)
 import Lens.Micro.TH (makeLenses)
 
 data Name = ButtonPlay
@@ -33,7 +39,20 @@ data Name = ButtonPlay
           | NameField
           deriving (Show, Ord, Eq)
 
+
+-- | Screens of application
 data UIScreen = Initial | Play | Credits  deriving (Eq)
+
+data FieldsState =
+  FieldsState { _field1 :: Int
+              , _field2 :: Int
+              , _field3 :: Int
+              } deriving (Show)
+makeLenses ''FieldsState
+
+data AppEvent = AppEvent deriving (Eq)
+
+type FormFields = Form FieldsState AppEvent Name
 
 data AppState =
   AppState { _uiScreen :: UIScreen
@@ -41,6 +60,8 @@ data AppState =
            , _tropasRestantesJogador :: Int
            , _level :: Int
            , _fields :: [Int]
+
+           , _formFields :: FormFields
            -- , _field1 :: Int
            -- , _field2 :: Int
            -- , _field3 :: Int
@@ -55,8 +76,7 @@ data AppState =
            , _nomeJogador :: String
 
            , _currentConcept :: Int
-           }
-           -- deriving (Show)
+           } -- deriving (Show)
 makeLenses ''AppState
 
 -- Data para representar o vencedor em um campo

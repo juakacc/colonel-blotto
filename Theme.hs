@@ -13,6 +13,7 @@ module Theme
 ) where
 
 import Brick
+import Brick.Forms(invalidFormInputAttr)
 import Brick.Widgets.Edit
 import Graphics.Vty
 
@@ -43,17 +44,25 @@ btExit = "btExit"
 btCredits :: AttrName
 btCredits = "btCredits"
 
+-- theMap = attrMap V.defAttr
+--   [ (E.editAttr, V.white `on` V.black)
+--   , (focusedFormInputAttr, V.black `on` V.blue)
+--   ]
+
 theme :: AttrMap
 theme = attrMap defAttr
   [ (negrito, fg white `withStyle` bold)
 
   , (fVerde, fg green)
   , (fAzul, fg cyan)
-
+  -- Buttons
   , (btPlay, black `on` yellow)
   , (btClean, black `on` white)
   , (btMenu, white `on` blue)
   , (btStart, white `on` green)
   , (btExit, black `on` red)
   , (btCredits, white `on` magenta)
+  -- Forms
+  , (invalidFormInputAttr, white `on` red)
+  , (editFocusedAttr, black `on` yellow)
   ]

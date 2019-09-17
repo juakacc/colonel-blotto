@@ -16,6 +16,7 @@ import Lens.Micro ((^.), (&), (.~), (%~))
 import Data.Monoid ((<>))
 
 import Brick
+import qualified Brick.Forms as F
 import qualified Brick.Main
 import Brick.Widgets.Core
 -- import qualified Brick.AttrMap as AT
@@ -63,10 +64,6 @@ painelEsquerdo st =
        , bot
        ]
 
-jog :: AppState -> Widget Name
-jog st =
-  vBox [C.hCenter $ str "Tropas", C.center $ qtdJogador $ st^.tropasRestantesJogador]
-
 painelDireito :: AppState -> Widget Name
 painelDireito st =
   withBorderStyle BS.unicodeRounded $
@@ -75,13 +72,12 @@ painelDireito st =
   C.center $
   vBox [C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ st^.nomeJogador),
         B.hBorder,
-        jog st,
+        C.hCenter $ (C.vCenter $ str "Tropas: ") <+> (qtdJogador $ st^.tropasRestantesJogador),
         B.hBorder,
         C.hCenter $ withDefAttr negrito $ str $ "Coronel Blotto",
         B.hBorder,
         C.hCenter $
-        str "Tropas",
-        C.center $ qtdCoronel $ st^.tropasRestantesJogador,
+        C.hCenter $ (C.vCenter $ str "Tropas: ") <+> (qtdCoronel $ st^.tropasRestantesJogador),
         B.hBorder,
         padBottom (Pad 1) $
         C.hCenter $ btnPlay st,
@@ -93,12 +89,12 @@ form st =
   B.border $
   -- hLimit 35 $
   -- setAvailableSize (50,50) $
-  C.center $
-  hBox
-    [ translateBy (Location (0, 0)) $ qtdJogador $ (st^.fields) !! 0
-    , translateBy (Location (5, 10)) $ qtdJogador $ (st^.fields) !! 1
-    , translateBy (Location (10, 5)) $ qtdJogador $ (st^.fields) !! 2
-    ]
+  C.center $ F.renderForm $ st^.formFields
+  -- hBox
+  --   [ translateBy (Location (0, 0)) $ qtdJogador $ (st^.fields) !! 0
+  --   , translateBy (Location (5, 10)) $ qtdJogador $ (st^.fields) !! 1
+  --   , translateBy (Location (10, 5)) $ qtdJogador $ (st^.fields) !! 2
+  --   ]
 
 drawPlay :: AppState -> [Widget Name]
 drawPlay st =

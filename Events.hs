@@ -22,7 +22,7 @@ import Lens.Micro ((^.), (&), (.~), (%~))
 -- handleEvent st (VtyEvent (V.EvKey V.KEsc [])) = M.halt st
 -- handleEvent st _ = M.continue st
 
-handleEvent :: AppState -> BrickEvent Name e -> EventM Name (Next AppState)
+handleEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handleEvent st (VtyEvent (V.EvResize _ _)) = continue st
 handleEvent st (VtyEvent (V.EvKey V.KEsc [])) = halt st
 handleEvent st e = do
