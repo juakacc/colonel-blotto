@@ -4,6 +4,7 @@ module Theme
 , negrito
 , fVerde
 , fAzul
+, txtError
 , btPlay
 , btClean
 , btMenu
@@ -25,6 +26,9 @@ fVerde = "fVerde"
 
 fAzul :: AttrName
 fAzul = "fAzul"
+
+txtError :: AttrName
+txtError = "error"
 
 btPlay :: AttrName
 btPlay = "btPlay"
@@ -55,6 +59,7 @@ theme = attrMap defAttr
 
   , (fVerde, fg green)
   , (fAzul, fg cyan)
+  , (txtError, fg red)
   -- Buttons
   , (btPlay, black `on` yellow)
   , (btClean, black `on` white)

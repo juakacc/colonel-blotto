@@ -29,6 +29,12 @@ drawPlay st = [
        ]
   ]
 
+msg :: AppState -> Widget Name
+msg st =
+  -- B.border $
+  withDefAttr txtError $
+  str $ st^.errorMsg
+
 qtdCoronel :: Int -> Widget Name
 qtdCoronel x =
   withDefAttr fVerde $
@@ -75,6 +81,10 @@ form :: AppState -> Widget Name
 form st =
   withBorderStyle BS.unicodeRounded $
   B.border $
+  C.center $
+  vBox [ F.renderForm $ st^.formFields
+       , B.hBorder
+       , msg st
+       ]
   -- hLimit 35 $
   -- setAvailableSize (50,50) $
-  C.center $ F.renderForm $ st^.formFields

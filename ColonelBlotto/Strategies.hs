@@ -18,7 +18,7 @@ getStrategy1 nTropas nCampos =
 
 -- | Apenas para Teste
 getStrategy2 :: Int -> Int -> [Int]
-getStrategy2 nTropas nCampos = [100,100,100]
+getStrategy2 nTropas nCampos = [75,75,0]
 
 -- | Sorteia um numero aleatório entre 1 e o n informado
 getNumberRandom n = randomRIO(1, n) :: IO Int

@@ -15,8 +15,14 @@ import UI.Comp.MkForms(mkFormFields, mkFormFieldsState)
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
   case e of
-    MouseDown ButtonPlay _ _ _  -> continue $ st & currentConcept .~ nextConcept(st^.currentConcept)
-                                                 & lastReportedClick .~ Just ButtonPlay
+    MouseDown ButtonPlay _ _ _  -> do
+      let f' = st^.formFields
+      let sf = F.formState f'
+      if F.allFieldsValid f'
+        then continue $ st & currentConcept .~ nextConcept(st^.currentConcept)
+                           & lastReportedClick .~ Just ButtonPlay
+                           & fields .~ [sf^.field1, sf^.field2, sf^.field3]
+        else continue $ st & lastReportedClick .~ Just ButtonPlay
     MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
     MouseDown ButtonClean _ _ _ -> continue $ st & fields .~ cleanFields st  -- verificar necessidade
                                                  & formFields .~ cleanForm

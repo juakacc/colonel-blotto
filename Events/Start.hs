@@ -21,7 +21,6 @@ handleStartEvent st e =
         then continue $ st & uiScreen          .~ Play
                            & playerName        .~ (if (T.length (sf^.nameI) == 0) then (T.pack "Anônimo") else (sf^.nameI))
                            & qtdFields         .~ sf^.fieldsI
-                           & qtdSoldiers       .~ sf^.soldiersI
                            & quantitySoldiers  .~ (getQtdSoldiers $ sf^.soldiersI)
                            & remainingSoldiers .~ (getQtdSoldiers $ sf^.soldiersI)
                            & lastReportedClick .~ Just ButtonStart

@@ -30,8 +30,8 @@ mkInitialState =
            , _formFields = mkFormFields mkFormFieldsState
 
            , _formInfos = mkFormInfos mkFormInfosState
-           , _playerName = T.pack "Paulo da Silva"
-           , _qtdSoldiers = Little
+           , _playerName = T.pack "Anônimo"
+           , _errorMsg = "Mensagem de erro"
            , _qtdFields = Little
            }
 

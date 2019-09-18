@@ -11,7 +11,7 @@ module Types
   , playerName
   , fields
   , qtdFields
-  , qtdSoldiers
+  , errorMsg
 
   , currentScreen
   , getQtdSoldiers
@@ -75,7 +75,7 @@ data AppEvent = AppEvent deriving (Eq)
 
 -- Forms of application
 type FormFields = Form FieldsState AppEvent Name
-type FormInfos = Form InfoState AppEvent Name
+type FormInfos  = Form InfoState AppEvent Name
 
 -- State of application
 data AppState =
@@ -85,24 +85,13 @@ data AppState =
            , _formInfos :: FormInfos
            , _playerName :: T.Text
            , _qtdFields :: Quantity
-           , _qtdSoldiers :: Quantity
 
            , _remainingSoldiers :: Int  -- Número de soldados restantes para utilização
            , _quantitySoldiers  :: Int  -- Número total de soldados que ele pode usar
 
            , _formFields :: FormFields
            , _fields :: [Int]
-           -- , _field1 :: Int
-           -- , _field2 :: Int
-           -- , _field3 :: Int
-           -- , _jogadorFields :: [Int]
-           -- , _jogadorField2 :: Int
-           -- , _jogadorField3 :: Int
-
-           -- , _colonelFields :: [Int]
-           -- , _colonelField2 :: Int
-           -- , _colonelField3 :: Int
-
+           , _errorMsg :: String
            , _currentConcept :: Int
            } -- deriving (Show)
 makeLenses ''FieldsState
