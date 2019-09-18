@@ -15,20 +15,19 @@ import UI.Comp.MkForms(mkFormFields, mkFormFieldsState)
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
   case e of
-    MouseDown n _ _ _ -> do
-      let st' = st & lastReportedClick .~ Just n
-      case n of
-        ButtonPlay    -> continue $ st' & currentConcept .~ nextConcept(st'^.currentConcept)
-        ButtonMenu    -> continue $ st' & uiScreen .~ Initial
-        ButtonClean   -> continue $ st' & fields .~ cleanFields st'  -- verificar necessidade
-                                        & formFields .~ cleanForm
-        ButtonCredits -> continue $ st' & uiScreen .~ Credits
-        _             -> continue $ st'
+    MouseDown ButtonPlay _ _ _  -> continue $ st & currentConcept .~ nextConcept(st^.currentConcept)
+                                                 & lastReportedClick .~ Just ButtonPlay
+    MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
+    MouseDown ButtonClean _ _ _ -> continue $ st & fields .~ cleanFields st  -- verificar necessidade
+                                                 & formFields .~ cleanForm
+                                                 & lastReportedClick .~ Just ButtonClean
+    MouseDown ButtonCredits _ _ _ -> continue $ st & uiScreen .~ Credits
     MouseUp _ _ _ -> continue $ st & lastReportedClick .~ Nothing
     _ -> do
       f' <- F.handleFormEvent e $ st^.formFields
       continue $ st & formFields .~ f'
 
+-- | Clean the fields of forms with battle fields, creating a new state formFields
 cleanForm :: FormFields
 cleanForm = mkFormFields mkFormFieldsState
 
