@@ -21,6 +21,6 @@ header st =
   hBox [ C.center $
          withDefAttr negrito $
          str "CORONEL BLOTTO - Teoria dos Jogos"
-       , B.vBorder
-       , if st^.uiScreen == Credits then btnMenu st else btnCredits st
+       -- , B.vBorder
+       -- , if st^.uiScreen == Credits then btnMenu st else btnCredits st
        ]

@@ -5,12 +5,17 @@ module Types
   , AppState(..)
   , uiScreen
   , lastReportedClick
+  , quantitySoldiers
   , remainingSoldiers
   , currentConcept
   , playerName
   , fields
   , qtdFields
+  , qtdSoldiers
+
   , currentScreen
+  , getQtdSoldiers
+  , getQtdFields
 
   , AppEvent
   , FormFields
@@ -110,3 +115,13 @@ data Value = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
 -- | Return the current screen to print
 currentScreen :: AppState -> UIScreen
 currentScreen st = _uiScreen st
+
+getQtdSoldiers :: Quantity -> Int
+getQtdSoldiers Little = 100
+getQtdSoldiers Medium = 150
+getQtdSoldiers Very = 200
+
+getQtdFields :: Quantity -> Int
+getQtdFields Little = 3
+getQtdFields Medium = 4
+getQtdFields Very = 5

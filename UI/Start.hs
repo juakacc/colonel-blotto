@@ -15,13 +15,36 @@ import Types
 import UI.Comp.MkButtons
 import UI.Comp.Header
 import UI.Comp.Footer
+import UI.Comp.MenuLeft
 
 drawStart :: AppState -> [Widget Name]
 drawStart st = [
   vBox [ header st
-       , B.border $ renderForm $ st^.formInfos
-       , (btnStart st <+> B.vBorder <+> btnExit st)
-       , footerS]]
+       , hBox [painelEsquerdo st, painelCentral st]
+       , footerS
+       ]
+  ]
+
+painelCentral :: AppState -> Widget Name
+painelCentral st =
+  C.center $
+  withBorderStyle BS.unicodeRounded $
+  B.borderWithLabel (str "| Informações básicas |") $
+  vBox [ form st
+       , botoes st
+       ]
+
+form :: AppState -> Widget Name
+form st = C.hCenter $ B.border $ renderForm $ st^.formInfos
+
+botoes st =
+  C.hCenter $
+  withBorderStyle BS.unicodeRounded $
+  B.border $
+  vLimit 5 $
+  hBox [ padLeftRight 1 $ btnStart st
+       , padLeftRight 1 $ btnExit st
+       ]
 
 footerS :: Widget Name
 footerS =
