@@ -21,7 +21,7 @@ app =
       }
 
 mkInitialState =
-  AppState { _uiScreen = Initial
+  AppState { _uiScreen = Results
            , _lastReportedClick = Nothing
            , _remainingSoldiers = 70
            , _quantitySoldiers = 150

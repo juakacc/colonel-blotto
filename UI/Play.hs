@@ -82,7 +82,6 @@ battleField :: AppState -> Widget Name
 battleField st =
   withBorderStyle BS.unicodeRounded $
   B.borderWithLabel (str "/ Campos de batalha /") $
-  B.border $
   C.center $
   vBox [ F.renderForm $ st^.formFields
        ]
