@@ -19,11 +19,12 @@ handlePlayEvent st e =
       let f' = st^.formFields
       let sf = F.formState f'
       if F.allFieldsValid f'
-        then continue $ st & currentConcept .~ nextConcept(st^.currentConcept)
+        then continue $ st & uiScreen .~ Results
+                           & currentConcept .~ nextConcept(st^.currentConcept)
                            & lastReportedClick .~ Just ButtonPlay
                            & fields .~ [sf^.field1, sf^.field2, sf^.field3]
-                           & uiScreen .~ Results
         else continue $ st & lastReportedClick .~ Just ButtonPlay
+                           & errorMsg .~ "Distribuição de tropas inválida"
     MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
     MouseDown ButtonClean _ _ _ -> continue $ st & fields .~ cleanFields st  -- verificar necessidade
                                                  & formFields .~ cleanForm
@@ -32,7 +33,20 @@ handlePlayEvent st e =
     MouseUp _ _ _ -> continue $ st & lastReportedClick .~ Nothing
     _ -> do
       f' <- F.handleFormEvent e $ st^.formFields
-      continue $ st & formFields .~ f'
+      let sf = F.formState f'
+      let t = sf^.field1 + sf^.field2 + sf^.field3 -- total de tropas já utilizado
+      let remaining = st^.quantitySoldiers - t
+      let formFinal = F.setFieldValid (remaining >= 0) Field1 (
+                      F.setFieldValid (remaining >= 0) Field2 (
+                      F.setFieldValid (remaining >= 0) Field3 f'
+                      ))
+
+      let stF = st & formFields .~ formFinal
+                   & remainingSoldiers .~ if remaining >= 0 then remaining else 0
+
+      if F.allFieldsValid formFinal
+        then continue $ stF & errorMsg .~ ""
+        else continue $ stF & errorMsg .~ "Distribuição de tropas inválida"
 
 -- | Clean the fields of forms with battle fields, creating a new state formFields
 cleanForm :: FormFields

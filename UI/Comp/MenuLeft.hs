@@ -29,6 +29,7 @@ painelEsquerdo st =
                           "Limpar (C-l)"
        ]
 
+botoes st Results = vBox [padBottom (Pad 1) $ btnMenu st, padBottom (Pad 1) $ btnCredits st, btnStart st]
 botoes st Play = vBox [padBottom (Pad 1) $ btnMenu st, btnCredits st]
 botoes st Initial = vBox [btnCredits st]
 botoes st Credits = vBox [btnMenu st]

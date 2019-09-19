@@ -24,16 +24,17 @@ import qualified Brick.Widgets.Border.Style as BS
 drawPlay :: AppState -> [Widget Name]
 drawPlay st = [
   vBox [ header st
-       , C.hCenterLayer $ hBox [painelEsquerdo st, form st, painelDireito st]
-       , footer st
+       , C.hCenterLayer $ hBox [painelEsquerdo st, battleField st, painelDireito st]
+       , if length (st^.errorMsg) > 0 then footerOfError st else bottom st
        ]
   ]
 
-msg :: AppState -> Widget Name
-msg st =
-  -- B.border $
-  withDefAttr txtError $
-  str $ st^.errorMsg
+bottom :: AppState -> Widget Name
+bottom _ =
+  footerWithText "Instruções" $ "Distribua suas tropas entre os campos de batalha, " <>
+                 "da melhor maneira possível, a fim de derrotar seu adversário, o " <>
+                 "Coronel Blotto. No painel direito é exibido a quantidade de tropas " <>
+                 "que você ainda pode utilizar. Após preparar suas tropas clique em Jogar."
 
 qtdCoronel :: Int -> Widget Name
 qtdCoronel x =
@@ -77,14 +78,13 @@ painelDireito st =
        , C.hCenter $ btnClean st
        ]
 
-form :: AppState -> Widget Name
-form st =
+battleField :: AppState -> Widget Name
+battleField st =
   withBorderStyle BS.unicodeRounded $
+  B.borderWithLabel (str "/ Campos de batalha /") $
   B.border $
   C.center $
   vBox [ F.renderForm $ st^.formFields
-       , B.hBorder
-       , msg st
        ]
   -- hLimit 35 $
   -- setAvailableSize (50,50) $

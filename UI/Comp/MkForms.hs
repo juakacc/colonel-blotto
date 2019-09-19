@@ -14,6 +14,7 @@ import qualified Brick.Widgets.Border.Style as BS
 import qualified Data.Text as T
 
 import Types
+import Theme
 
 mkFormFieldsState :: FieldsState
 mkFormFieldsState =
@@ -24,9 +25,12 @@ mkFormFieldsState =
 
 mkFormFields :: FieldsState -> Form FieldsState AppEvent Name
 mkFormFields =
-  newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
-          , translateBy (Location (20,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
-          , translateBy (Location (0,3)) @@= hLimit 10 @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
+  newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
+          , translateBy (Location (20,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
+          , translateBy (Location (0,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
+
+          -- , translateBy (Location (20,2)) @@= hLimit 10 @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
+          -- , translateBy (Location (0,2)) @@= hLimit 10 @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
           ]
 
 mkFormInfosState :: InfoState

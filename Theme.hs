@@ -3,6 +3,7 @@ module Theme
 ( theme
 , negrito
 , fVerde
+, bgVerde
 , fAzul
 , txtError
 , btPlay
@@ -14,7 +15,7 @@ module Theme
 ) where
 
 import Brick
-import Brick.Forms(invalidFormInputAttr)
+import Brick.Forms(invalidFormInputAttr, formAttr)
 import Brick.Widgets.Edit
 import Graphics.Vty
 
@@ -23,6 +24,9 @@ negrito = "negrito"
 
 fVerde :: AttrName
 fVerde = "fVerde"
+
+bgVerde :: AttrName
+bgVerde = "bgVerde"
 
 fAzul :: AttrName
 fAzul = "fAzul"
@@ -48,18 +52,15 @@ btExit = "btExit"
 btCredits :: AttrName
 btCredits = "btCredits"
 
--- theMap = attrMap V.defAttr
---   [ (E.editAttr, V.white `on` V.black)
---   , (focusedFormInputAttr, V.black `on` V.blue)
---   ]
-
 theme :: AttrMap
 theme = attrMap defAttr
   [ (negrito, fg white `withStyle` bold)
 
   , (fVerde, fg green)
+  -- , (fVerde, fg $ rgbColor 70 70 70)
+  , (bgVerde, bg green)
   , (fAzul, fg cyan)
-  , (txtError, fg red)
+  , (txtError, fg red `withStyle` bold)
   -- Buttons
   , (btPlay, black `on` yellow)
   , (btClean, black `on` white)

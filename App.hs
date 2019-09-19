@@ -31,7 +31,7 @@ mkInitialState =
 
            , _formInfos = mkFormInfos mkFormInfosState
            , _playerName = T.pack "Anônimo"
-           , _errorMsg = "Mensagem de erro"
+           , _errorMsg = ""
            , _qtdFields = Little
            }
 

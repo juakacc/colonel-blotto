@@ -32,7 +32,7 @@ mkButton (st, name, label, attr) =
      str (if wasClicked then "<" <> label <> ">" else label)
 
 btnPlay :: AppState -> Widget Name
-btnPlay st = mkButton (st, ButtonPlay, "Jogar", T.btPlay)
+btnPlay st = mkButton (st, ButtonPlay, "Vai", T.btPlay)
 
 btnClean :: AppState -> Widget Name
 btnClean st = mkButton (st, ButtonClean, "Limpar", T.btClean)
@@ -41,7 +41,7 @@ btnMenu :: AppState -> Widget Name
 btnMenu st = mkButton (st, ButtonMenu, "Menu", T.btMenu)
 
 btnStart :: AppState -> Widget Name
-btnStart st = mkButton (st, ButtonStart, "Iniciar", T.btStart)
+btnStart st = mkButton (st, ButtonStart, "Jogar", T.btStart)
 
 btnExit :: AppState -> Widget Name
 btnExit st = mkButton (st, ButtonExit, "Sair", T.btExit)
