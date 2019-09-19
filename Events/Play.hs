@@ -22,6 +22,7 @@ handlePlayEvent st e =
         then continue $ st & currentConcept .~ nextConcept(st^.currentConcept)
                            & lastReportedClick .~ Just ButtonPlay
                            & fields .~ [sf^.field1, sf^.field2, sf^.field3]
+                           & uiScreen .~ Results
         else continue $ st & lastReportedClick .~ Just ButtonPlay
     MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
     MouseDown ButtonClean _ _ _ -> continue $ st & fields .~ cleanFields st  -- verificar necessidade

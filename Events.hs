@@ -29,6 +29,7 @@ handleEvent st e = do
     case currentScreen st of
       Initial -> handleStartEvent st e
       Play -> handlePlayEvent st e
+      Results -> handlePlayEvent st e 
       Credits -> handleCreditsEvent st e
       -- _ -> handleStartEvent st e
 -- handleEvent st _ = continue st

@@ -55,7 +55,7 @@ data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | B
           deriving (Show, Ord, Eq)
 
 -- | Screens of application
-data UIScreen = Initial | Play | Credits deriving (Eq)
+data UIScreen = Initial | Play | Results | Credits deriving (Eq)
 
 data InfoState =
     InfoState { _nameI        :: T.Text
