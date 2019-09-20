@@ -32,15 +32,25 @@ getNumberRandom :: Int -> IO Int
 getNumberRandom n = randomRIO(1, n) :: IO Int
 
 -- | Invoca determinada estrategia, dependendo do numero sorteado
--- getStrategyForNumber :: (Eq a, Num a) => a -> [Int]
-getStrategyForNumber :: IO Int -> Int -> Int -> [Int]
+getStrategyForNumber :: Int -> Int -> Int -> [Int]
 getStrategyForNumber n nTropas nCampos
  | n == 1    = getStrategy1 nTropas nCampos
  | n == 2    = getStrategy2 nTropas nCampos
  | otherwise = getStrategyForNumber 1 nTropas nCampos
+ 
+--
+-- getStra :: Int -> Int -> [Int]
+-- getStra nTropas nCampos = do
+--   x <- getNumberRandom numberOfStrategies
+--   case x of
+--     1 -> getStrategy1 nTropas nCampos
+--     _ -> getStrategy2 nTropas nCampos
 
 -- | Retorna uma estratégia sorteada do conjunto de estratégias disponíveis
 getStrategy :: Int -> Int -> [Int]
-getStrategy nTropas nCampos =
- x = getNumberRandom numberOfStrategies
- return $ getStrategyForNumber x nTropas nCampos
+getStrategy nTropas nCampos = getStrategyForNumber 1 nTropas nCampos
+ --  getStrategyForNumber x nTropas nCampos
+ --  where x = getNumberRandom numberOfStrategies
+ -- --  do
+ -- let x
+ -- getStrategyForNumber x nTropas nCampos
