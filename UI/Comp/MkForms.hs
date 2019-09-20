@@ -25,7 +25,7 @@ mkFormFieldsState =
 
 mkFormFields :: FieldsState -> Form FieldsState AppEvent Name
 mkFormFields =
-  newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
+  newForm [ translateBy (Location (0,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.ascii) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.border @@= editShowableField field1 Field1
           , translateBy (Location (20,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field2 Field2
           , translateBy (Location (0,0)) @@= hLimit 10 @@= (withDefAttr bgVerde) @@= (withBorderStyle BS.unicodeBold) @@= (B.border) @@= (withBorderStyle BS.ascii) @@= B.borderWithLabel (str "-") @@= editShowableField field3 Field3
 

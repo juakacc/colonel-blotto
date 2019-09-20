@@ -1,5 +1,7 @@
 module Events.Play
 ( handlePlayEvent
+, cleanForm
+, cleanFields
 ) where
 
 import Brick
@@ -21,7 +23,7 @@ handlePlayEvent st e =
       if F.allFieldsValid f'
         then continue $ st & uiScreen .~ Results
                            & currentConcept .~ nextConcept(st^.currentConcept)
-                           & lastReportedClick .~ Just ButtonPlay
+                           & lastReportedClick .~ Nothing
                            & fields .~ [sf^.field1, sf^.field2, sf^.field3]
         else continue $ st & lastReportedClick .~ Just ButtonPlay
                            & errorMsg .~ "Distribuição de tropas inválida"
@@ -48,14 +50,14 @@ handlePlayEvent st e =
         then continue $ stF & errorMsg .~ ""
         else continue $ stF & errorMsg .~ "Distribuição de tropas inválida"
 
--- | Clean the fields of forms with battle fields, creating a new state formFields
-cleanForm :: FormFields
-cleanForm = mkFormFields mkFormFieldsState
-
 -- | Próximo conceito a ser exibido, caso seja o último da lista
 -- é retornado ao primeiro indice
 nextConcept :: Int -> Int
 nextConcept n = if n < (length concepts) - 1 then n + 1 else 0
+
+-- | Clean the fields of forms with battle fields, creating a new state formFields
+cleanForm :: FormFields
+cleanForm = mkFormFields mkFormFieldsState
 
 cleanFields :: AppState -> [Int]
 cleanFields st =

@@ -66,7 +66,7 @@ painelDireito st =
   B.border $
   hLimit 20 $
   C.center $
-  vBox [ C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ T.unpack $ st^.playerName)
+  vBox [ C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ take 20 $ T.unpack $ st^.playerName)
        , B.hBorder
        , C.hCenter ((C.vCenter $ str "Tropas: ") <+> C.vCenter (qtdJogador $ st^.remainingSoldiers))
        , B.hBorder

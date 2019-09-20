@@ -21,12 +21,12 @@ app =
       }
 
 mkInitialState =
-  AppState { _uiScreen = Results
+  AppState { _uiScreen = Initial
            , _lastReportedClick = Nothing
            , _remainingSoldiers = 70
            , _quantitySoldiers = 150
            , _currentConcept = 0
-           , _fields = [10,20,30]
+           , _fields = [0, 0, 0]
            , _formFields = mkFormFields mkFormFieldsState
 
            , _formInfos = mkFormInfos mkFormInfosState

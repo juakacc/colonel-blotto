@@ -43,7 +43,7 @@ import Lens.Micro.TH (makeLenses)
 -- | Quantidade de tropas e campos de batalha
 data Quantity = Little | Medium | Very deriving (Show, Eq)
 
-data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | ButtonCredits
+data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | ButtonCredits | ButtonPlayAgain
           -- Form of battle
           | Field1 | Field2 | Field3
           -- Form initial

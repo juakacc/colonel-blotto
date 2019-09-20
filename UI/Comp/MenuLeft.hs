@@ -22,14 +22,14 @@ painelEsquerdo st =
        , B.hBorder
        , C.hCenter $ withDefAttr negrito $ str "Atalhos"
        , B.hBorder
-       , C.center $ str $ "Sair (C-q)\n\n"<>
+       , C.center $ str $ "Sair (C-q)\n"<>
                           "Início (C-i)\n"<>
-                          "Créditos (C-a)\n\n"<>
+                          "Créditos (C-a)\n"<>
                           "Jogar (C-j)\n"<>
                           "Limpar (C-l)"
        ]
 
-botoes st Results = vBox [padBottom (Pad 1) $ btnMenu st, padBottom (Pad 1) $ btnCredits st, btnStart st]
+botoes st Results = botoes st Play
 botoes st Play = vBox [padBottom (Pad 1) $ btnMenu st, btnCredits st]
 botoes st Initial = vBox [btnCredits st]
 botoes st Credits = vBox [btnMenu st]

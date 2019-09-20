@@ -2,6 +2,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 module UI.Comp.MkButtons
 ( btnPlay
+, btnPlayAgain
 , btnClean
 , btnMenu
 , btnStart
@@ -33,6 +34,10 @@ mkButton (st, name, label, attr) =
 
 btnPlay :: AppState -> Widget Name
 btnPlay st = mkButton (st, ButtonPlay, "Vai", T.btPlay)
+
+btnPlayAgain :: AppState -> Widget Name
+btnPlayAgain st = mkButton (st, ButtonPlayAgain, "  Jogar\n" <>
+                                                 "novamente", T.btPlayAgain)
 
 btnClean :: AppState -> Widget Name
 btnClean st = mkButton (st, ButtonClean, "Limpar", T.btClean)
