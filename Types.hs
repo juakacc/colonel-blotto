@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Types
   ( Name(..)
-  , Value(..)
+  , Vencedor(..)
   , AppState(..)
   , uiScreen
   , lastReportedClick
@@ -99,7 +99,7 @@ makeLenses ''InfoState
 makeLenses ''AppState
 
 -- Data to represent the winner of a field
-data Value = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
+data Vencedor = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
 
 -- | Return the current screen to print
 currentScreen :: AppState -> UIScreen

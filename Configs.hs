@@ -1,20 +1,20 @@
 module Configs
-( numeroDeCampos
-, numeroDeTropas
-, numeroDeEstrategias
+( numberOfStrategies
 , concepts
+-- numeroDeCampos
+-- , numeroDeTropas
 ) where
 
 -- Configurações gerais do jogo
 
-numeroDeCampos :: Int
-numeroDeCampos = 3
+-- numeroDeCampos :: Int
+-- numeroDeCampos = 3
 
-numeroDeTropas :: Int
-numeroDeTropas = 150
+-- numeroDeTropas :: Int
+-- numeroDeTropas = 150
 
-numeroDeEstrategias :: Int
-numeroDeEstrategias = 1
+numberOfStrategies :: Int
+numberOfStrategies = 1
 
 
 -- 10 de setembro, 15:25

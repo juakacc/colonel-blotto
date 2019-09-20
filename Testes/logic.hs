@@ -1,7 +1,7 @@
 import Control.Monad
 
-import Strategies
-import Menus
+import Core.Strategies
+import Testes.Menus
 import Configs
 import Types (Value(..))
 

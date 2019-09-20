@@ -1,4 +1,4 @@
-module Menus
+module Testes.Menus
 ( imprimir_tela_inicial
 ) where
 

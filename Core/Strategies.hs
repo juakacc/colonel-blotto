@@ -1,9 +1,9 @@
-module Strategies
-( getStrategy1
+module Core.Strategies
+( getStrategy
 ) where
 
 import System.Random
-import Configs
+import Configs(numberOfStrategies)
 
 -- Estrategia 01 - onde o numero de tropas eh dividido de forma igualitaria entre os campos
 -- O ultimo campo fica com o restante, caso nao seja uma divisao fechada
@@ -16,20 +16,31 @@ getStrategy1 nTropas nCampos =
         cb2 = quot nTropas nCampos
         cb3 = nTropas - (cb1 + cb2)
 
--- | Apenas para Teste
+-- | Estrategia 02 - onde o numero de tropas eh dividido de forma igualitaria entre a metade
+-- dos campos de batalha, o restante fica zerado
+-- [cb1, cb2, cb3]
+-- estrategia2 = [75, 75, 0]
 getStrategy2 :: Int -> Int -> [Int]
-getStrategy2 nTropas nCampos = [75,75,0]
+getStrategy2 nTropas nCampos =
+  [cb1, cb2, cb3]
+  where cb1 = quot nTropas 2
+        cb2 = nTropas - cb1
+        cb3 = 0
 
 -- | Sorteia um numero aleatório entre 1 e o n informado
+getNumberRandom :: Int -> IO Int
 getNumberRandom n = randomRIO(1, n) :: IO Int
 
 -- | Invoca determinada estrategia, dependendo do numero sorteado
-getStrategyForNumber n
- | n == 1    = getStrategy1 numeroDeTropas numeroDeCampos
- -- | n == 2    = getStrategy2 numeroDeTropas numeroDeCampos
- | otherwise = getStrategyForNumber 1
+-- getStrategyForNumber :: (Eq a, Num a) => a -> [Int]
+getStrategyForNumber :: IO Int -> Int -> Int -> [Int]
+getStrategyForNumber n nTropas nCampos
+ | n == 1    = getStrategy1 nTropas nCampos
+ | n == 2    = getStrategy2 nTropas nCampos
+ | otherwise = getStrategyForNumber 1 nTropas nCampos
 
 -- | Retorna uma estratégia sorteada do conjunto de estratégias disponíveis
-getStrategy = do
- x <- getNumberRandom numeroDeEstrategias
- return $ getStrategyForNumber x
+getStrategy :: Int -> Int -> [Int]
+getStrategy nTropas nCampos =
+ x = getNumberRandom numberOfStrategies
+ return $ getStrategyForNumber x nTropas nCampos
