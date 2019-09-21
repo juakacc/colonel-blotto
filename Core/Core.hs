@@ -27,18 +27,18 @@ countWins lista tipo
  | otherwise       = 0
 
 -- |Recebe as duas jogadas e decide quem eh o vencedor
-getWin :: [Int] -> [Int] -> Vencedor
-getWin jogador coronel
-  | vJogador == vCoronel = EMPATE
-  | vJogador > vCoronel  = JOGADOR
-  | otherwise            = CORONEL
+getWinner :: [Int] -> [Int] -> Vencedor
+getWinner jogador coronel
+  | vJogador < vCoronel = CORONEL
+  | vJogador > vCoronel = JOGADOR
+  | otherwise           = EMPATE
   where vJogador = countWins lista JOGADOR
         vCoronel = countWins lista CORONEL
         lista    = getListWinners jogador coronel
 
 play :: AppState -> AppState
-play st =
-  st'
+play st = st'
   where strategy = getStrategy (st^.quantitySoldiers) (getQtdFields $ st^.qtdFields)
+        w = getWinner (st^.fields) strategy
         st' = st & fieldsBlotto .~ strategy
-                 & winner .~ getWin (st^.fields) strategy
+                 & winner .~ w

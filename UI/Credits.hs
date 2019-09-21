@@ -33,10 +33,12 @@ body st =
   -- B.border $
   vBox [ about "Teoria dos jogos" "A teoria dos jogos estuda as interações dos jogadores envolvidos a fim de escolher decisões ótimas para cada um deles, de acordo com os seus interesses particulares, ou não, é muito utilizada na área econômica, entre outras."
        , about "Coronel Blotto" "Se baseia em um jogo formado por 2 jogadores, o jogador e o seu oponente, o Coronel Blotto, em que os 2 dividem suas tropas entre os campos de batalha, a fim de liderar aquele campo, e assim, conseguindo mais lideranças, vencer o jogo. A divisão de tropas é oculta para cada jogador."
-       , about "Mais jogos" "Citar alguns exemplos de jogos relacionados com a teoria dos jogos"
-       , about "Pesquisa" "Falar um pouco a respeito da pesquisa"
+       , about "Mais jogos usados na Teoria dos jogos" $ "Jogo da velha - Batalha dos sexos - Dilema do prisioneiro\nPedra-papel-tesoura - Cara-coroa - Bens públicos"
+       , about "Pesquisa" $ "Foram utilizadas as seguintes fontes de estudo para implementação:\n" <>
+                            "Learn You a Haskell for Great Good -> http://learnyouahaskell.com/\n" <>
+                            "Hackage Haskell -> https://hackage.haskell.org\n" <>
+                            "Brick API (TUI) -> https://github.com/jtdaugherty/brick\n"
        ]
-  -- hyperlink "https://www.google.com/" $ str "Teoria dos jogos, mais jogos, informações sobre o jogo, pesquisa\n"
 
 about :: String -> String -> Widget Name
 about title content =

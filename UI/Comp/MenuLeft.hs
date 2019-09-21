@@ -22,11 +22,12 @@ painelEsquerdo st =
        , B.hBorder
        , C.hCenter $ withDefAttr negrito $ str "Atalhos"
        , B.hBorder
-       , C.center $ str $ "Sair (C-q)\n"<>
-                          "Início (C-i)\n"<>
-                          "Créditos (C-a)\n"<>
-                          "Jogar (C-j)\n"<>
-                          "Limpar (C-l)"
+       , C.center $ str $ "Sair (Ctrl-q)\n"<>
+                          "Início (Ctrl-s)\n"<>
+                          "Créditos (Ctrl-a)\n"<>
+                          "Jogar (Ctrl-y)\n"<>
+                          "Vai (Ctrl-p)\n"<>
+                          "Limpar (Ctrl-l)"
        ]
 
 botoes st Results = botoes st Play

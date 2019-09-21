@@ -26,9 +26,9 @@ mkInitialState =
            , _remainingSoldiers = 70
            , _quantitySoldiers = 150
            , _currentConcept = 0
-           , _fieldsBlotto = [1, 0, 0]
-           , _fields = [0, 1, 0]
-           , _winner = CORONEL
+           , _fieldsBlotto = [0, 0, 0]
+           , _fields = [0, 0, 0]
+           , _winner = EMPATE
            , _formFields = mkFormFields mkFormFieldsState
 
            , _formInfos = mkFormInfos mkFormInfosState

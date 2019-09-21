@@ -32,9 +32,8 @@ painelDireito st =
   -- C.hCenter $
   vBox [ C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ take 20 $ T.unpack $ st^.playerName)
        , B.hBorder
-       , C.hCenter $ getWidgetWinner $ st^.winner
+       , C.hCenter $ getWidgetWinner (st^.winner)
        , C.hCenter $ padTop (Pad 2) $ btnPlayAgain st
-
   ]
 
 getWidgetWinner :: Vencedor -> Widget Name
