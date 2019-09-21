@@ -2,7 +2,7 @@ module Core.Core
 ( play
 ) where
 
-import Lens.Micro((^.))
+import Lens.Micro((^.), (&), (.~))
 
 import Core.Strategies
 import Types
@@ -36,5 +36,9 @@ getWin jogador coronel
         vCoronel = countWins lista CORONEL
         lista    = getListWinners jogador coronel
 
-play :: AppState -> Vencedor
-play st = getWin (st^.fields) (getStrategy (st^.quantitySoldiers) (getQtdFields $ st^.qtdFields))
+play :: AppState -> AppState
+play st =
+  st'
+  where strategy = getStrategy (st^.quantitySoldiers) (getQtdFields $ st^.qtdFields)
+        st' = st & fieldsBlotto .~ strategy
+                 & winner .~ getWin (st^.fields) strategy

@@ -10,6 +10,8 @@ module Types
   , currentConcept
   , playerName
   , fields
+  , fieldsBlotto
+  , winner
   , qtdFields
   , errorMsg
 
@@ -57,6 +59,9 @@ data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | B
 -- | Screens of application
 data UIScreen = Initial | Play | Results | Credits deriving (Eq)
 
+-- Data to represent the winner of a field
+data Vencedor = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
+
 data InfoState =
     InfoState { _nameI        :: T.Text
               , _soldiersI    :: Quantity
@@ -91,15 +96,14 @@ data AppState =
 
            , _formFields :: FormFields
            , _fields :: [Int]
+           , _fieldsBlotto :: [Int]
+           , _winner :: Vencedor
            , _errorMsg :: String
            , _currentConcept :: Int
            } -- deriving (Show)
 makeLenses ''FieldsState
 makeLenses ''InfoState
 makeLenses ''AppState
-
--- Data to represent the winner of a field
-data Vencedor = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
 
 -- | Return the current screen to print
 currentScreen :: AppState -> UIScreen

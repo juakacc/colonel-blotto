@@ -32,23 +32,40 @@ painelDireito st =
   -- C.hCenter $
   vBox [ C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ take 20 $ T.unpack $ st^.playerName)
        , B.hBorder
-       , C.hCenter $ withDefAttr msgResultLoss $ padAll 1 $ strWrap "VOCÊ VENCEU"
+       , C.hCenter $ getWidgetWinner $ st^.winner
        , C.hCenter $ padTop (Pad 2) $ btnPlayAgain st
 
   ]
+
+getWidgetWinner :: Vencedor -> Widget Name
+getWidgetWinner JOGADOR = withDefAttr msgResultWin $ padAll 1 $ strWrap "VOCÊ VENCEU"
+getWidgetWinner CORONEL = withDefAttr msgResultLoss $ padAll 1 $ strWrap "VOCÊ PERDEU"
+getWidgetWinner EMPATE  = withDefAttr msgResultEmp $ padAll 1 $ strWrap "EMPATE"
 
 battleFieldResult :: AppState -> Widget Name
 battleFieldResult st =
   withBorderStyle BS.unicodeRounded $
   B.borderWithLabel (str "/ Situação final /") $
   C.center $
-  vBox [ translateBy (Location (5, 0)) $ resultTitle st
-       , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) 20
-       , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) 40
-       , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) 40
-       , translateBy (Location (25,0)) $ resultBox 30 40
-       , translateBy (Location (0,0)) $ resultBox 30 40
-       ]
+  case st^.qtdFields of
+    _ -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
+                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+                   , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
+                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+                   ]
+    -- Medium -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
+    --                , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+    --                , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
+    --                , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+    --                , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 3) ((st^.fieldsBlotto) !! 3)
+    --                ]
+    -- Very   -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
+    --                , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+    --                , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
+    --                , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+    --                , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 3) ((st^.fieldsBlotto) !! 3)
+    --                , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 4) ((st^.fieldsBlotto) !! 4)
+    --                ]
 
 resultTitle :: AppState -> Widget Name
 resultTitle st =
@@ -62,7 +79,12 @@ resultTitle st =
 resultBox :: Int -> Int -> Widget Name
 resultBox player colonel =
   vLimit 3 $
-  withDefAttr (if player > colonel then bgWin else bgLoss) $
+  withDefAttr (getTheme player colonel) $
   withBorderStyle BS.unicodeBold $
   B.border $
   (str $ show player) <+> B.vBorder <+> (str $ show colonel)
+
+getTheme player colonel
+  | player > colonel = bgWin
+  | player < colonel = bgLoss
+  | otherwise = bgEmp

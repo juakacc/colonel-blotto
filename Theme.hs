@@ -6,6 +6,7 @@ module Theme
 , bgVerde
 , bgWin
 , bgLoss
+, bgEmp
 , fAzul
 , txtError
 , btPlay
@@ -17,6 +18,7 @@ module Theme
 , btCredits
 , msgResultWin
 , msgResultLoss
+, msgResultEmp
 ) where
 
 import Brick
@@ -38,6 +40,9 @@ bgWin = "bgWin"
 
 bgLoss :: AttrName
 bgLoss = "bgLoss"
+
+bgEmp :: AttrName
+bgEmp = "bgEmp"
 
 fAzul :: AttrName
 fAzul = "fAzul"
@@ -72,6 +77,9 @@ msgResultWin = "msgResultWin"
 msgResultLoss :: AttrName
 msgResultLoss = "msgResultLoss"
 
+msgResultEmp :: AttrName
+msgResultEmp = "msgResultEmp"
+
 theme :: AttrMap
 theme = attrMap defAttr
   [ (negrito, fg white `withStyle` bold)
@@ -82,8 +90,10 @@ theme = attrMap defAttr
 
   , (bgWin, bg green)
   , (bgLoss, bg red)
+  , (bgEmp, bg blue)
   , (msgResultWin, white `on` green `withStyle` bold `withStyle` blink)
   , (msgResultLoss, white `on` red `withStyle` bold `withStyle` blink)
+  , (msgResultEmp, white `on` blue `withStyle` bold `withStyle` blink)
 
   , (fAzul, fg cyan)
   , (txtError, fg red `withStyle` bold)

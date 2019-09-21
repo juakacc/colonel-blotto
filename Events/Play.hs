@@ -8,11 +8,12 @@ import Brick
 import qualified Brick.Forms as F
 import Brick.Main
 
-import Lens.Micro ((^.), (&), (.~), (%~))
+import Lens.Micro ((^.), (&), (.~))
 
 import Types
 import Configs(concepts)
 import UI.Comp.MkForms(mkFormFields, mkFormFieldsState)
+import Core.Core
 
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
@@ -21,10 +22,7 @@ handlePlayEvent st e =
       let f' = st^.formFields
       let sf = F.formState f'
       if F.allFieldsValid f'
-        then continue $ st & uiScreen .~ Results
-                           & currentConcept .~ nextConcept(st^.currentConcept)
-                           & lastReportedClick .~ Nothing
-                           & fields .~ [sf^.field1, sf^.field2, sf^.field3]
+        then continue $ toResult $ st & fields .~ [sf^.field1, sf^.field2, sf^.field3]
         else continue $ st & lastReportedClick .~ Just ButtonPlay
                            & errorMsg .~ "Distribuição de tropas inválida"
     MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
@@ -50,6 +48,15 @@ handlePlayEvent st e =
         then continue $ stF & errorMsg .~ ""
         else continue $ stF & errorMsg .~ "Distribuição de tropas inválida"
 
+-- | Put infos in state to go at screen of results
+toResult :: AppState -> AppState
+toResult st =
+  st'
+  where s = st & uiScreen .~ Results
+               & currentConcept .~ nextConcept(st^.currentConcept)
+               & lastReportedClick .~ Nothing
+        st' = play s
+
 -- | Próximo conceito a ser exibido, caso seja o último da lista
 -- é retornado ao primeiro indice
 nextConcept :: Int -> Int
@@ -64,4 +71,4 @@ cleanFields st =
   case (st^.qtdFields) of
     Little -> [0, 0, 0]
     Medium -> [0, 0, 0, 0]
-    _ -> [0, 0, 0, 0]
+    _      -> [0, 0, 0, 0, 0]

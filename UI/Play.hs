@@ -13,6 +13,7 @@ import Theme
 import Types
 
 import qualified Data.Text as T
+import Data.Monoid((<>))
 import Lens.Micro ((^.), (&), (.~), (%~))
 
 import Brick

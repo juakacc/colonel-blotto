@@ -27,8 +27,7 @@ concepts =
   , "O coronel Blotto é um jogo simétrico, se você trocar a sua estratégia pela do seu adversário e ele fizer o mesmo com a sua, os resultados serão equivalentes"
   , "O coronel Blotto é um jogo de informação completa, já que você sabe todas as regras e quais os possíveis resultados dependendo da estratégia utilizada"
   , "O coronel Blotto é um jogo indeterminado, não há uma estratégia para você garantir no mínimo um empate, seu adversário é imprevisível"
-  , "---"
-  , "A teoria dos jogos estuda as interações dos jogadores a fim de escolher decisões ótimas para eles, de acordo com os seus interesses"
+  
   , "Estratégias são um conjunto de opções de ação que você tem para chegar a um conjunto de resultados"
   , "Estratégia pura é quando você não realiza cálculos para escolher, escolhe de forma natural"
   , "Estratégia dominante é quando você tem uma estratégia que sempre vai ser a melhor, independente das escolhas dos demais jogadores"
