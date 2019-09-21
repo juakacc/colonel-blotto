@@ -35,31 +35,29 @@ bottom _ =
   footerWithText "Instruções" $ "Distribua suas tropas entre os campos de batalha, " <>
                  "da melhor maneira possível, a fim de derrotar seu adversário, o " <>
                  "Coronel Blotto. No painel direito é exibido a quantidade de tropas " <>
-                 "que você ainda pode utilizar. Após preparar suas tropas clique em Jogar."
+                 "que ainda estão disponíveis.\nApós preparar suas tropas clique em Vai."
 
 qtdCoronel :: Int -> Widget Name
 qtdCoronel x =
   withDefAttr fVerde $
-  withBorderStyle BS.unicodeBold $
+  withBorderStyle BS.unicode $
   B.border $
   hLimit 7 $
   vLimit 1 $
   C.center $
-  withDefAttr negrito $
   withDefAttr fVerde $
   str $ show x
 
-qtdJogador :: Int -> Widget Name
-qtdJogador x =
-  withDefAttr fAzul $
-  withBorderStyle BS.unicodeBold $
+qtdJogador :: AppState -> Widget Name
+qtdJogador st =
+  withDefAttr (if length (st^.errorMsg) > 0 then txtError else fAzul) $
+  withBorderStyle BS.unicode $
   B.border $
   hLimit 7 $
   vLimit 1 $
   C.center $
-  withDefAttr negrito $
-  withDefAttr fAzul $
-  str $ show x
+  withDefAttr (if length (st^.errorMsg) > 0 then txtError else fAzul) $
+  str $ show $ st^.remainingSoldiers
 
 painelDireito :: AppState -> Widget Name
 painelDireito st =
@@ -69,7 +67,7 @@ painelDireito st =
   C.center $
   vBox [ C.hCenter $ (withDefAttr negrito $ str $ "Jogador:\n") <=> (strWrap $ take 20 $ T.unpack $ st^.playerName)
        , B.hBorder
-       , C.hCenter ((C.vCenter $ str "Tropas: ") <+> C.vCenter (qtdJogador $ st^.remainingSoldiers))
+       , C.hCenter ((C.vCenter $ str "Tropas: ") <+> C.vCenter (qtdJogador st))
        , B.hBorder
        , C.hCenter $ withDefAttr negrito $ str $ "Coronel Blotto"
        , B.hBorder
@@ -84,7 +82,4 @@ battleField st =
   withBorderStyle BS.unicodeRounded $
   B.borderWithLabel (str "/ Campos de batalha /") $
   C.center $
-  vBox [ F.renderForm $ st^.formFields
-       ]
-  -- hLimit 35 $
-  -- setAvailableSize (50,50) $
+  F.renderForm $ st^.formFields

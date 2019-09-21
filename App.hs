@@ -28,7 +28,7 @@ mkInitialState =
            , _currentConcept = 0
            , _fieldsBlotto = [1, 0, 0]
            , _fields = [0, 1, 0]
-           , _winner = JOGADOR
+           , _winner = CORONEL
            , _formFields = mkFormFields mkFormFieldsState
 
            , _formInfos = mkFormInfos mkFormInfosState

@@ -4,6 +4,8 @@ module Theme
 , negrito
 , fVerde
 , bgVerde
+, bgGreenDark
+, bgGreenLight
 , bgWin
 , bgLoss
 , bgEmp
@@ -34,6 +36,12 @@ fVerde = "fVerde"
 
 bgVerde :: AttrName
 bgVerde = "bgVerde"
+
+bgGreenDark :: AttrName
+bgGreenDark = "bgGreenDark"
+
+bgGreenLight :: AttrName
+bgGreenLight = "bgGreenLight"
 
 bgWin :: AttrName
 bgWin = "bgWin"
@@ -82,30 +90,56 @@ msgResultEmp = "msgResultEmp"
 
 theme :: AttrMap
 theme = attrMap defAttr
-  [ (negrito, fg white `withStyle` bold)
+  [ (negrito, fg branco `withStyle` bold)
+  , (txtError, fg vermelho `withStyle` bold)
 
-  , (fVerde, fg green)
-  -- , (fVerde, fg $ rgbColor 70 70 70)
-  , (bgVerde, bg green)
+  , (fAzul, fg azul)
+  , (fVerde, fg verdeEscuro)
 
-  , (bgWin, bg green)
-  , (bgLoss, bg red)
-  , (bgEmp, bg blue)
-  , (msgResultWin, white `on` green `withStyle` bold `withStyle` blink)
-  , (msgResultLoss, white `on` red `withStyle` bold `withStyle` blink)
-  , (msgResultEmp, white `on` blue `withStyle` bold `withStyle` blink)
+  , (bgVerde, bg $ verdeEscuro)
+  , (bgGreenDark, bg verdeEscuro)
+  , (bgGreenLight, bg verdeClaro)
 
-  , (fAzul, fg cyan)
-  , (txtError, fg red `withStyle` bold)
+  , (bgWin, bg verdeEscuro)
+  , (bgLoss, bg vermelho)
+  , (bgEmp, bg azul)
+  , (msgResultWin, branco `on` verdeEscuro `withStyle` bold `withStyle` blink)
+  , (msgResultLoss, branco `on` vermelho `withStyle` bold `withStyle` blink)
+  , (msgResultEmp, branco `on` blue `withStyle` bold `withStyle` blink)
+
   -- Buttons
-  , (btPlay, black `on` yellow)
-  , (btPlayAgain, black `on` yellow)
-  , (btClean, black `on` white)
-  , (btMenu, white `on` blue)
-  , (btStart, white `on` green)
-  , (btExit, white `on` red)
-  , (btCredits, white `on` magenta)
+  , (btPlay, branco `on` azul)
+  , (btPlayAgain, black `on` laranja)
+  , (btClean, black `on` branco)
+  , (btMenu, branco `on` cinza)
+  , (btStart, branco `on` verdeEscuro)
+  , (btExit, branco `on` vermelho)
+  , (btCredits, branco `on` roxo)
   -- Forms
-  , (invalidFormInputAttr, white `on` red)
-  , (editFocusedAttr, black `on` yellow)
+  , (invalidFormInputAttr, branco `on` red)
+  , (editFocusedAttr, black `on` branco)
   ]
+
+roxo :: Color
+roxo = rgbColor 106 90 205
+
+laranja :: Color
+laranja = rgbColor 255 140 0
+
+cinza :: Color
+cinza = rgbColor 128 128 128
+
+vermelho :: Color
+vermelho = rgbColor 255 0 0
+
+azul :: Color
+azul = rgbColor 0 0 255
+
+branco :: Color
+branco = rgbColor 255 255 255
+
+verdeClaro :: Color
+verdeClaro = rgbColor 34 139 34
+
+verdeEscuro :: Color
+verdeEscuro = rgbColor 0 100 0

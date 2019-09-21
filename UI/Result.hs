@@ -38,9 +38,9 @@ painelDireito st =
   ]
 
 getWidgetWinner :: Vencedor -> Widget Name
-getWidgetWinner JOGADOR = withDefAttr msgResultWin $ padAll 1 $ strWrap "VOCÊ VENCEU"
-getWidgetWinner CORONEL = withDefAttr msgResultLoss $ padAll 1 $ strWrap "VOCÊ PERDEU"
-getWidgetWinner EMPATE  = withDefAttr msgResultEmp $ padAll 1 $ strWrap "EMPATE"
+getWidgetWinner JOGADOR = withBorderStyle BS.ascii $ B.border $ withDefAttr msgResultWin  $ padAll 1 $ strWrap "VOCÊ VENCEU"
+getWidgetWinner CORONEL = withBorderStyle BS.ascii $ B.border $ withDefAttr msgResultLoss $ padAll 1 $ strWrap "VOCÊ PERDEU"
+getWidgetWinner EMPATE  = withBorderStyle BS.ascii $ B.border $ withDefAttr msgResultEmp  $ padAll 1 $ strWrap "EMPATE"
 
 battleFieldResult :: AppState -> Widget Name
 battleFieldResult st =

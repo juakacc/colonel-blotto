@@ -32,4 +32,4 @@ painelEsquerdo st =
 botoes st Results = botoes st Play
 botoes st Play = vBox [padBottom (Pad 1) $ btnMenu st, btnCredits st]
 botoes st Initial = vBox [btnCredits st]
-botoes st Credits = vBox [btnMenu st]
+botoes st Credits = vBox [padBottom (Pad 1) $ btnMenu st, btnStart st]
