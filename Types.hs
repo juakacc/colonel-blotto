@@ -26,6 +26,8 @@ module Types
   , field1
   , field2
   , field3
+  , field4
+  , field5
 
   , FormInfos
   , formInfos
@@ -47,7 +49,7 @@ data Quantity = Little | Medium | Very deriving (Show, Eq)
 
 data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | ButtonCredits | ButtonPlayAgain
           -- Form of battle
-          | Field1 | Field2 | Field3
+          | Field1 | Field2 | Field3 | Field4 | Field5
           -- Form initial
           | NameField
           | NumberFields
@@ -73,6 +75,8 @@ data FieldsState =
   FieldsState { _field1 :: Int
               , _field2 :: Int
               , _field3 :: Int
+              , _field4 :: Int
+              , _field5 :: Int
               } deriving (Show)
 
 -- Events of application

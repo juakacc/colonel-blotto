@@ -29,7 +29,7 @@ mkInitialState =
            , _fieldsBlotto = [0, 0, 0]
            , _fields = [0, 0, 0]
            , _winner = EMPATE
-           , _formFields = mkFormFields mkFormFieldsState
+           , _formFields = mkFormFields mkFormFieldsState Little
 
            , _formInfos = mkFormInfos mkFormInfosState
            , _playerName = T.pack "Anônimo"

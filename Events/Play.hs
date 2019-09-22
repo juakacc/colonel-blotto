@@ -19,11 +19,11 @@ import Core.Core
 handlePlayEvent :: AppState -> BrickEvent Name AppEvent -> EventM Name (Next AppState)
 handlePlayEvent st e =
   case e of
-    MouseDown ButtonPlay _ _ _  -> continue $ playEvent st
-    MouseDown ButtonMenu _ _ _  -> continue $ st & uiScreen .~ Initial
-    MouseDown ButtonClean _ _ _ -> continue $ (cleanFields st) & lastReportedClick .~ Just ButtonClean
-    MouseDown ButtonCredits _ _ _ -> continue $ st & uiScreen .~ Credits
-    MouseUp _ _ _ -> continue $ st & lastReportedClick .~ Nothing
+    MouseDown ButtonPlay _ _ _     -> continue $ playEvent st
+    MouseDown ButtonMenu _ _ _     -> continue $ st & uiScreen .~ Initial
+    MouseDown ButtonClean _ _ _    -> continue $ (cleanFields st) & lastReportedClick .~ Just ButtonClean
+    MouseDown ButtonCredits _ _ _  -> continue $ st & uiScreen .~ Credits
+    MouseUp _ _ _                  -> continue $ st & lastReportedClick .~ Nothing
     VtyEvent (V.EvKey V.KEnter []) -> continue $ playEvent st
     _ -> do
       f' <- F.handleFormEvent e $ st^.formFields
@@ -60,10 +60,6 @@ playEvent st = do
 nextConcept :: Int -> Int
 nextConcept n = if n < (length concepts) - 1 then n + 1 else 0
 
--- | Clean the fields of forms with battle fields, creating a new state formFields
-cleanForm :: FormFields
-cleanForm = mkFormFields mkFormFieldsState
-
 cleanFields :: AppState -> AppState
 cleanFields st = st'
   where l = case (st^.qtdFields) of
@@ -71,6 +67,6 @@ cleanFields st = st'
               Medium -> [0, 0, 0, 0]
               _      -> [0, 0, 0, 0, 0]
         st' = st & fields .~ l
-                 & formFields .~ cleanForm
-                 & remainingSoldiers .~ st^.quantitySoldiers
+                 & formFields .~ (mkFormFields mkFormFieldsState (st^.qtdFields))
+                 & remainingSoldiers .~ (st^.quantitySoldiers)
                  & errorMsg .~ ""
