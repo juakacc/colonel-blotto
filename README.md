@@ -1,4 +1,4 @@
-# colonelBlotto-
+# Colonel Blotto
 
 ```
    ___         _                      _     ___   _         _     _         
