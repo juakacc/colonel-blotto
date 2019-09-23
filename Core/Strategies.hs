@@ -31,11 +31,19 @@ getStrategy1 nTropas 5 = [cb1, cb2, cb3, cb4, cb5]
 -- [cb1, cb2, cb3]
 -- estrategia2 = [75, 75, 0]
 getStrategy2 :: Int -> Int -> [Int]
-getStrategy2 nTropas nCampos =
-  [cb1, cb2, cb3]
+getStrategy2 nTropas 3 = [cb1, cb2, 0]
   where cb1 = quot nTropas 2
         cb2 = nTropas - cb1
-        cb3 = 0
+
+getStrategy2 nTropas 4 = [cb1, cb2, 0, 0]
+  where cb1 = quot nTropas 2
+        cb2 = nTropas - cb1
+
+getStrategy2 nTropas 5 = (getStrategy1 nTropas 3) ++ [0, 0]
+
+-- getStrategy3 :: Int -> Int -> [Int]
+-- getStrategy3 nTropas 3 = [cb1, cb2, cb3]
+--   where cb1 = 
 
 -- | Sorteia um numero aleatório entre 1 e o n informado
 getNumberRandom :: Int -> IO Int
