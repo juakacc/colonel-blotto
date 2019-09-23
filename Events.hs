@@ -3,7 +3,6 @@ module Events
 ) where
 
 import Types
-import Configs(concepts)
 import Events.Start
 import Events.Play
 import Events.Result

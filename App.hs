@@ -1,4 +1,5 @@
-module App where
+module Main
+(main) where
 
 import qualified Graphics.Vty as V
 import Brick
@@ -20,6 +21,7 @@ app =
       , appChooseCursor = showFirstCursor
       }
 
+mkInitialState :: AppState
 mkInitialState =
   AppState { _uiScreen = Initial
            , _lastReportedClick = Nothing

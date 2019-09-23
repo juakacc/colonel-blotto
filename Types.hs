@@ -47,6 +47,7 @@ import Lens.Micro.TH (makeLenses)
 -- | Quantidade de tropas e campos de batalha
 data Quantity = Little | Medium | Very deriving (Show, Eq)
 
+-- | Names of resources used on program
 data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | ButtonCredits | ButtonPlayAgain
           -- Form of battle
           | Field1 | Field2 | Field3 | Field4 | Field5
@@ -61,7 +62,7 @@ data Name = ButtonPlay | ButtonClean | ButtonMenu | ButtonStart | ButtonExit | B
 -- | Screens of application
 data UIScreen = Initial | Play | Results | Credits deriving (Eq)
 
--- Data to represent the winner of a field
+-- | Data to represent the winner of a field
 data Vencedor = JOGADOR | CORONEL | EMPATE deriving (Show, Eq)
 
 data InfoState =
@@ -70,7 +71,7 @@ data InfoState =
               , _fieldsI      :: Quantity
               } deriving (Show)
 
--- Verificar quando ficar variável
+-- | Verificar quando ficar variável
 data FieldsState =
   FieldsState { _field1 :: Int
               , _field2 :: Int
@@ -79,14 +80,14 @@ data FieldsState =
               , _field5 :: Int
               } deriving (Show)
 
--- Events of application
+-- | Events of application
 data AppEvent = AppEvent deriving (Eq)
 
--- Forms of application
+-- | Forms of application
 type FormFields = Form FieldsState AppEvent Name
 type FormInfos  = Form InfoState AppEvent Name
 
--- State of application
+-- | State of application
 data AppState =
   AppState { _uiScreen :: UIScreen
            , _lastReportedClick :: Maybe Name

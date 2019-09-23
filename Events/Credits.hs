@@ -3,7 +3,6 @@ module Events.Credits
 ) where
 
 import Brick
-
 import Lens.Micro ((^.), (&), (.~))
 
 import Types
