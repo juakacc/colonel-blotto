@@ -7,14 +7,24 @@ import Configs(numberOfStrategies)
 
 -- Estrategia 01 - onde o numero de tropas eh dividido de forma igualitaria entre os campos
 -- O ultimo campo fica com o restante, caso nao seja uma divisao fechada
--- [cb1, cb2, cb3]
--- estrategia1 = [50,50,50]
 getStrategy1 :: Int -> Int -> [Int]
-getStrategy1 nTropas nCampos =
-  [cb1, cb2, cb3]
-  where cb1 = quot nTropas nCampos
-        cb2 = quot nTropas nCampos
+getStrategy1 nTropas 3 = [cb1, cb2, cb3]
+  where cb1 = quot nTropas 3
+        cb2 = quot nTropas 3
         cb3 = nTropas - (cb1 + cb2)
+
+getStrategy1 nTropas 4 = [cb1, cb2, cb3, cb4]
+  where cb1 = quot nTropas 4
+        cb2 = quot nTropas 4
+        cb3 = quot nTropas 4
+        cb4 = nTropas - (cb1 + cb2 + cb3)
+
+getStrategy1 nTropas 5 = [cb1, cb2, cb3, cb4, cb5]
+  where cb1 = quot nTropas 5
+        cb2 = quot nTropas 5
+        cb3 = quot nTropas 5
+        cb4 = quot nTropas 5
+        cb5 = nTropas - (cb1 + cb2 + cb3 + cb4)
 
 -- | Estrategia 02 - onde o numero de tropas eh dividido de forma igualitaria entre a metade
 -- dos campos de batalha, o restante fica zerado
@@ -37,7 +47,7 @@ getStrategyForNumber n nTropas nCampos
  | n == 1    = getStrategy1 nTropas nCampos
  | n == 2    = getStrategy2 nTropas nCampos
  | otherwise = getStrategyForNumber 1 nTropas nCampos
- 
+
 --
 -- getStra :: Int -> Int -> [Int]
 -- getStra nTropas nCampos = do

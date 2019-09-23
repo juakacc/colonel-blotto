@@ -51,4 +51,4 @@ footerS =
   footerWithText "Ajuda" $ "Preparado para jogar Coronel Blotto? Adiante temos uma " <>
                            "implementação simples dele, é um jogo muito utilizado na Teoria dos Jogos. " <>
                            "Essa é a área de ajuda, ao longo do jogo serão apresentadas dicas e conceitos sobre o assunto.\n" <>
-                           "\n-> | Tamanho recomendado para terminal 80x34 |"
+                           "\n-> | Tamanho recomendado para terminal 90x40 |"

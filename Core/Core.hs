@@ -7,14 +7,14 @@ import Lens.Micro((^.), (&), (.~))
 import Core.Strategies
 import Types
 
--- |Dado o numero de tropas do jogador e do coronel, retorna o vencedor desse campo ou um empate
+-- | Dado o numero de tropas do jogador e do coronel, retorna o vencedor desse campo ou um empate
 getWinField :: Int -> Int -> Vencedor
 getWinField a b
  | a == b = EMPATE
  | a > b = JOGADOR
  | otherwise = CORONEL
 
--- |Recebe as duas jogadas e decide quem foi o vitorioso em cada campo de batalha
+-- | Recebe as duas jogadas e decide quem foi o vitorioso em cada campo de batalha
 getListWinners :: [Int] -> [Int] -> [Vencedor]
 getListWinners [] [] = [EMPATE]
 getListWinners [a] [b] = [getWinField a b]
@@ -26,7 +26,7 @@ countWins lista tipo
  | tipo == CORONEL = length $ filter (==CORONEL) lista
  | otherwise       = 0
 
--- |Recebe as duas jogadas e decide quem eh o vencedor
+-- | Recebe as duas jogadas e decide quem eh o vencedor
 getWinner :: [Int] -> [Int] -> Vencedor
 getWinner jogador coronel
   | vJogador < vCoronel = CORONEL
@@ -36,9 +36,10 @@ getWinner jogador coronel
         vCoronel = countWins lista CORONEL
         lista    = getListWinners jogador coronel
 
+-- | Recebe o estado e retorna um novo estado com os campos setados e o vencedor
 play :: AppState -> AppState
 play st = st'
-  where strategy = getStrategy (st^.quantitySoldiers) (getQtdFields $ st^.qtdFields)
+  where strategy = getStrategy (st^.quantitySoldiers) (getQtdFields (st^.qtdFields))
         w = getWinner (st^.fields) strategy
         st' = st & fieldsBlotto .~ strategy
                  & winner .~ w
