@@ -2,8 +2,10 @@ module Core.Strategies
 ( getStrategy
 ) where
 
-import System.Random
-import Configs(numberOfStrategies)
+import Lens.Micro
+
+import Configs(strategies)
+import Types
 
 -- | Estrategia 01 - onde o numero de tropas eh dividido de forma igualitaria entre os campos
 -- O ultimo campo fica com o restante, caso nao seja uma divisao fechada
@@ -78,11 +80,12 @@ getStrategy4 200 5 = [50, 50, 70, 30, 0]
 
 -- | Estrategia 05 - onde o numero de tropas eh dividido buscando a maioria dos campos
 -- 100 = [50, 50, 0]
-
+getStrategy5 :: Int -> Int -> [Int]
+getStrategy5 nTropas 3 = getStrategy2 nTropas 3
 -- 100 = [33, 33, 34, 0]
-
+getStrategy5 nTropas 4 = getStrategy1 nTropas 3 ++ [0]
 -- 100 = [33, 33, 34, 0, 0]
-
+getStrategy5 nTropas 5 = getStrategy2 nTropas 5
 
 -- | Invoca determinada estrategia, dependendo do numero sorteado
 getStrategyForNumber :: Int -> Int -> Int -> [Int]
@@ -92,36 +95,8 @@ getStrategyForNumber n nTropas nCampos =
     2 -> getStrategy2 nTropas nCampos
     3 -> getStrategy3 nTropas nCampos
     4 -> getStrategy4 nTropas nCampos
-    _ -> getStrategy1 nTropas nCampos
-
--- | Sorteia um numero aleatório entre 1 e o n informado
--- getNumberRandom :: Int -> IO Int
-getNumberRandom = randomRIO(1, numberOfStrategies) :: IO Int
-
--- getA x = getStrategy1 150 3
---
--- -- getX :: String
--- getX = do
---   x <- getNumberRandom
---   return [2,3,4]
-  -- case x of
-  --   1 -> "abc"
-  --   _ -> "ccc"
-
--- getStra :: Int -> Int -> [Int]
--- getStra nTropas nCampos = do
---   x <- getNumberRandom
---   return getA x
-
-  -- case x of
-  --   1 -> getStrategy1 nTropas nCampos
-  --   _ -> (getStrategy2 nTropas nCampos)
+    _ -> getStrategy5 nTropas nCampos
 
 -- | Retorna uma estratégia sorteada do conjunto de estratégias disponíveis
-getStrategy :: Int -> Int -> [Int]
-getStrategy nTropas nCampos = getStrategyForNumber 1 nTropas nCampos
- --  getStrategyForNumber x nTropas nCampos
- --  where x = getNumberRandom numberOfStrategies
- -- --  do
- -- let x
- -- getStrategyForNumber x nTropas nCampos
+getStrategy :: AppState -> [Int]
+getStrategy st = getStrategyForNumber (strategies !! (st^.currentConcept)) (st^.quantitySoldiers) (getQtdFields (st^.qtdFields))

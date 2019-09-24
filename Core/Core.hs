@@ -39,7 +39,7 @@ getWinner jogador coronel
 -- | Recebe o estado e retorna um novo estado com os campos setados e o vencedor
 play :: AppState -> AppState
 play st = st'
-  where strategy = getStrategy (st^.quantitySoldiers) (getQtdFields (st^.qtdFields))
+  where strategy = getStrategy st
         w = getWinner (st^.fields) strategy
         st' = st & fieldsBlotto .~ strategy
                  & winner .~ w

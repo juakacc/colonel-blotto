@@ -1,10 +1,7 @@
 module Configs
-( numberOfStrategies
-, concepts
+( concepts
+, strategies
 ) where
-
-numberOfStrategies :: Int
-numberOfStrategies = 1
 
 -- 10 de setembro, 15:25
 concepts :: [String]
@@ -26,3 +23,20 @@ concepts =
   , "Função de utilidade é a função utilizada para calcular o seu payoff e dos demais jogadores"
   , "Equilíbrio de Nash é quando todos os jogadores escolhem suas melhores estratégias, tendo em vista as escolhas dos demais jogadores"
   ]
+
+strategies :: [Int]
+strategies = [ 1
+             , 2
+             , 3
+             , 4
+             , 5
+             , 3
+             , 2
+             , 1
+             , 4
+             , 5
+             , 2
+             , 1
+             , 4
+             , 5
+             , 3 ]

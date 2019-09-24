@@ -48,22 +48,22 @@ battleFieldResult st =
   C.center $
   case st^.qtdFields of
     Little -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
                    , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
                    ]
     Medium -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
                    , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
                    , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 3) ((st^.fieldsBlotto) !! 3)
                    ]
     Very   -> vBox [ translateBy (Location (5, 0)) $ resultTitle st
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 0) ((st^.fieldsBlotto) !! 0)
                    , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 1) ((st^.fieldsBlotto) !! 1)
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 2) ((st^.fieldsBlotto) !! 2)
                    , translateBy (Location (25,0)) $ resultBox ((st^.fields) !! 3) ((st^.fieldsBlotto) !! 3)
-                   , translateBy (Location (0,0)) $ resultBox ((st^.fields) !! 4) ((st^.fieldsBlotto) !! 4)
+                   , translateBy (Location (0,0))  $ resultBox ((st^.fields) !! 4) ((st^.fieldsBlotto) !! 4)
                    ]
 
 resultTitle :: AppState -> Widget Name
