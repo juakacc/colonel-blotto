@@ -11,6 +11,15 @@
 
 A implementation of game Colonel Blotto. Developed with [Haskell](https://www.haskell.org/) and [Brick](https://github.com/jtdaugherty/brick).
 
+## Run
+
+```
+$ git clone https://github.com/juakacc/colonel-blotto
+$ cd colonel-blotto
+$ ./CoronelBlotto
+```
+Or, download of executable: [Colonel Blotto](https://github.com/juakacc/colonel-blotto/releases/download/v1.1.0/CoronelBlotto)
+
 ## Game Theory
 
 Game theory studies the interactions of the players involved in order to choose optimal decisions for each player, according to their particular interests, or not, is widely used in the economic field, among others.
@@ -34,3 +43,14 @@ The following study sources were used for implementation:
 - [Learn You a Haskell for Great Good](http://learnyouahaskell.com/)
 - [Hackage Haskell](https://hackage.haskell.org)
 - [Brick API (TUI)](https://github.com/jtdaugherty/brick)
+
+## Credits
+
+Game developed as part of conclusion project of curso computer of University State of Paraíba (UEPB). Implemented in 2019. Utilizing Haskell (A language purely functional) and Brick to development of GUI.
+
+Teacher: Edson Holanda Cavalcante Junior
+
+Student: Joaquim Aníbal Rocha Neto
+
+Follow the GNU General Public License, because i love free software.
+:pencil2: with :yellow_heart:
