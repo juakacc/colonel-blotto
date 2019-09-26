@@ -7,6 +7,8 @@
   \___| \___/ |_| \___/ |_||_| \___| |_|   |___/ |_| \___/  \__|  \__| \___/
 ```
 
+[Documentation in portuguese](https://github.com/juakacc/colonel-blotto/blob/master/docs/guide.rst)
+
 A implementation of game Colonel Blotto. Developed with [Haskell](https://www.haskell.org/) and [Brick](https://github.com/jtdaugherty/brick).
 
 ## Game Theory
@@ -15,7 +17,7 @@ Game theory studies the interactions of the players involved in order to choose 
 
 ## Colonel Blotto
 
-It is based on a 2 player game, the player and his opponent, Colonel Blotto, where the 2 divide their troops between the battlefields in order to lead that field, and thus, getting more leaderships, beat the game. The division of troops is hidden to player.
+It is based on a two player game, the player and his opponent, Colonel Blotto, where the two divide their troops between the battlefields in order to lead that field, and thus, getting more leaderships, beat the game. The division of troops is hidden to player.
 
 ## More Games of game theory
 
