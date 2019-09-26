@@ -8,6 +8,16 @@ Execução
 
 A execução do jogo pode ser feita da seguinte forma:
 
+Clonando o repositório::
+
+$ git clone https://github.com/juakacc/colonel-blotto
+$ cd colonel-blotto
+$ ./CoronelBlotto
+
+Ou, baixe o executável do programa, CoronelBlotto_
+
+.. _CoronelBlotto: 
+
 Teoria dos jogos
 ================
 
@@ -68,7 +78,7 @@ Considerações finais
 Jogo desenvolvido como parte do projeto de conclusão de curso de Computação da
 UEPB. Desenvolvido em 2019. Desenvolvido em `Haskell`_ (Uma linguagem puramente funcional e
 altamente poderosa), utilizando `Brick`_ para desenvolvimento da GUI.
-O projeto final segue a licença GPL.
+O projeto final segue a licença GPL. I love free code (:
 
 Orientador: Edson Holanda Cavalcante Junior
 
