@@ -1,7 +1,7 @@
 Coronel Blotto
 ~~~~~~~~~~~~~~
 
-.. contents:: `Atalhos`
+.. contents:: `Atalhos:`
 
 Execução
 ========
@@ -16,7 +16,7 @@ $ ./CoronelBlotto
 
 Ou, baixe o executável do programa, CoronelBlotto_
 
-.. _CoronelBlotto: 
+.. _CoronelBlotto: https://github.com/juakacc/colonel-blotto/releases/download/v1.1.0/CoronelBlotto
 
 Teoria dos jogos
 ================
@@ -26,7 +26,7 @@ escolher decisões ótimas para cada um deles, de acordo com os seus interesses
 particulares, ou não, é muito utilizada na área econômica, entre outras. O
 ``Coronel Blotto`` é um dos jogos que estão inclusos nesse estudo.
 
-Coronel Blotto
+Colonel Blotto
 ==============
 
 ``Coronel Blotto``, em sua versão mais simples se baseia em um jogo formado por dois
