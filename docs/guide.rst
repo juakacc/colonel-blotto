@@ -3,20 +3,42 @@ Coronel Blotto
 
 .. contents:: `Atalhos:`
 
-Execução
-========
+Requisitos
+==========
+(O Jogo não roda na plataforma Windows ainda, devido a uma incompatibilidade do SO com a biblioteca VTY)
 
-A execução do jogo pode ser feita da seguinte forma:
+- Haskell
+- BRICK
 
-Clonando o repositório::
+Instalação e Execução
+=====================
+
+- Realizar instalação do Haskell (depende do seu SO): Instruções_
+
+.. _Instruções: https://www.haskell.org/platform/
+
+- Com o ``haskell-platform`` é instalado também o Cabal, um construtor de pacotes;
+
+Instalando o BRICK com Cabal::
+
+$ cabal update
+$ cabal install brick
+
+Clonando o projeto ou baixe o zip::
 
 $ git clone https://github.com/juakacc/colonel-blotto
 $ cd colonel-blotto
+
+- A execução do jogo pode ser feita da seguinte forma:
+
+Construindo o executável::
+
+$ ghc -o CoronelBlotto App.hs -threaded
+
+Executando::
+
+$ sudo chmod +x CoronelBlotto
 $ ./CoronelBlotto
-
-Ou, baixe o executável do programa, CoronelBlotto_
-
-.. _CoronelBlotto: https://github.com/juakacc/colonel-blotto/releases/download/v1.1.0/CoronelBlotto
 
 Teoria dos jogos
 ================
