@@ -12,7 +12,7 @@
 A implementation of game Colonel Blotto. Developed with [Haskell](https://www.haskell.org/) and [Brick](https://github.com/jtdaugherty/brick).
 
 ![Executando](./docs/executando.gif)
-<img src="./docs/executando.gif" height="300">
+<img src="./docs/executando.gif" height="600">
 
 ## Run
 
