@@ -11,7 +11,7 @@
 
 A implementation of game Colonel Blotto. Developed with [Haskell](https://www.haskell.org/) and [Brick](https://github.com/jtdaugherty/brick).
 
-![Executando](./docs/executando.gif?s=100)
+![Executando](./docs/executando.gif?s=80)
 <img src="./docs/executando.gif" width="100" height="100">
 
 ## Run
