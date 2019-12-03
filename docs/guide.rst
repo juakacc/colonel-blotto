@@ -3,6 +3,8 @@ Coronel Blotto
 
 .. contents:: `Atalhos:`
 
+<img src="./executando.gif" width="500">
+
 Requisitos
 ==========
 (O Jogo não roda na plataforma Windows ainda, devido a uma incompatibilidade do SO com a biblioteca VTY)
