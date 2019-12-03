@@ -16,22 +16,21 @@ A implementation of game Colonel Blotto. Developed with [Haskell](https://www.ha
 ## Install and Run
 - Install the Haskell: [Instructions](https://www.haskell.org/platform/)
 
-### Install the BRICK with Cabal:
+#### Install the BRICK with Cabal:
 ```
 $ cabal update
 $ cabal install brick
 ```
-### Clone the project or download zip:
+#### Clone the project or download zip:
 ```
 $ git clone https://github.com/juakacc/colonel-blotto
 $ cd colonel-blotto
 ```
-- A execução do jogo pode ser feita da seguinte forma:
-### Make:
+#### Make:
 ```
 $ ghc -o CoronelBlotto App.hs -threaded
 ```
-### Run:
+#### Run:
 ```
 # chmod +x CoronelBlotto
 $ ./CoronelBlotto
